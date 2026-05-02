@@ -1,0 +1,40 @@
+{
+  "env": {},
+  "permissions": {
+    "allow": [
+      "Bash(npm:*)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git pull:*)",
+      "Bash(git fetch:*)",
+      "Bash(if [ -d \"apps\" ])",
+      "Bash([ -d \"libs\" ])",
+      "Bash(then echo \"MICROSERVICES_MONOREPO\")",
+      "Bash(elif [ -d \"src/modules\" ])",
+      "Bash(then echo \"MONOLITH\")",
+      "Bash(else echo \"SINGLE_APP\")",
+      "Bash(fi)",
+      "Bash(ls:*)",
+      "Bash(xargs:*)",
+      "Bash(ls -la /Users/jangot/Projects/private/table-server | grep -E '\\\\.\\(json|ts|js|md|yaml|yml\\)$')",
+      "Bash(node -r ts-node/register --test test/chrome.test.ts test/config.test.ts 2>&1)",
+      "Bash(mkdir -p /Users/jangot/Projects/ttrpgs-table/tt-telegram-router/ai-process/tasks/030-i18n-simple-translation-system)",
+      "Bash(mkdir -p /Users/jangot/Projects/ttrpgs-table/tt-telegram-router/ai-process/tasks/031-master-menu-inline-keyboard-with-labels)",
+      "Bash(node --import tsx --test \"test/master-source-navigate-commands.test.ts\")",
+      "Bash(git stash *)",
+      "Bash(node *)",
+      "Bash(python3 -c \"import sys,json; data=json.load\\(sys.stdin\\); paths=data.get\\('paths',{}\\); [print\\(p, list\\(paths[p].keys\\(\\)\\)\\) for p in paths]\")",
+      "Bash(python3 -c \" import sys,json data=json.load\\(sys.stdin\\) paths=data.get\\('paths',{}\\) image_path=paths.get\\('/api/image',{}\\) print\\(json.dumps\\(image_path, indent=2\\)\\) \")",
+      "Bash(grep -n \"botToken\\\\|}: RegisterCommandsOptions\\\\|roomLookup\\\\|}\\\\s*;\\\\s*$\" /Users/jangot/Projects/ttrpgs-table/tt-telegram-router/test/menu-commands.command.test.ts)"
+    ],
+    "deny": [
+      "Bash(git push --force:*)",
+      "Bash(git reset --hard:*)"
+    ]
+  }
+}
