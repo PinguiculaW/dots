@@ -6,61 +6,81 @@ import BackgroundLayer from "./components/BackgroundLayer";
 import { BRAILLE_BLANK } from "./utils/braille";
 import "./styles.css";
 
-const createGrid = (w, h) =>
+import type { Tool, Background } from "./types";
+
+// ====== TYPES ======
+type Grid = string[][];
+
+type FillMode = "color" | "empty";
+
+type Selection = {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+} | null;
+
+type ClipboardData = string[][] | null;
+
+// ====== HELPERS ======
+const createGrid = (w: number, h: number): Grid =>
   Array.from({ length: h }, () =>
     Array.from({ length: w }, () => BRAILLE_BLANK)
   );
 
-export default function App() {
-  const [width, setWidth] = useState(40);
-  const [height, setHeight] = useState(20);
+export default function AppInner(): React.ReactElement {
+  const [width, setWidth] = useState<number>(40);
+  const [height, setHeight] = useState<number>(20);
 
-  const [grid, setGrid] = useState(createGrid(width, height));
-  const [history, setHistory] = useState([]);
-  const [redoStack, setRedoStack] = useState([]);
+  const [grid, setGrid] = useState<Grid>(createGrid(width, height));
+  const [history, setHistory] = useState<Grid[]>([]);
+  const [redoStack, setRedoStack] = useState<Grid[]>([]);
 
-  const [selectedTool, setSelectedTool] = useState("brush");
-  const [selectedSymbol, setSelectedSymbol] = useState(BRAILLE_BLANK);
-  const [brushSize, setBrushSize] = useState(1);
-  const [fillMode, setFillMode] = useState("color");
+  const [selectedTool, setSelectedTool] = useState<Tool>("brush");
+  const [selectedSymbol, setSelectedSymbol] =
+    useState<string>(BRAILLE_BLANK);
+  const [brushSize, setBrushSize] = useState<number>(1);
+  const [fillMode] = useState<FillMode>("color");
 
-  const [background, setBackground] = useState({
-  image: null,
-  x: 0,
-  y: 0,
-  scale: 1,
-  opacity: 0.5,
-  draggable: false,
-});
+  const [background, setBackground] = useState<Background>({
+    image: null,
+    x: 0,
+    y: 0,
+    scale: 1,
+    opacity: 0.5,
+    draggable: false,
+  });
 
-const handleBackgroundUpload = (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+  const handleBackgroundUpload = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-  const reader = new FileReader();
-  reader.onload = () => {
-    setBackground({
-      image: reader.result,
-      x: 0,
-      y: 0,
-      scale: 1,
-      opacity: 0.5,
-      draggable: true,
-    });
+    const reader = new FileReader();
+    reader.onload = () => {
+      setBackground({
+        image: reader.result as string,
+        x: 0,
+        y: 0,
+        scale: 1,
+        opacity: 0.5,
+        draggable: true,
+      });
+    };
+    reader.readAsDataURL(file);
   };
-  reader.readAsDataURL(file);
-};
 
-  const [selection, setSelection] = useState(null);
-  const [clipboard, setClipboard] = useState(null);
+  const [selection, setSelection] = useState<Selection>(null);
+  const [clipboard, setClipboard] = useState<ClipboardData>(null);
 
-  const pushHistory = (newGrid) => {
+  const pushHistory = (newGrid: Grid): void => {
     setHistory((prev) => [...prev.slice(-50), grid]);
     setRedoStack([]);
     setGrid(newGrid);
   };
 
-  const undo = () => {
+  const undo = (): void => {
     if (!history.length) return;
     const prev = history[history.length - 1];
     setRedoStack((r) => [grid, ...r]);
@@ -68,7 +88,7 @@ const handleBackgroundUpload = (e) => {
     setGrid(prev);
   };
 
-  const redo = () => {
+  const redo = (): void => {
     if (!redoStack.length) return;
     const next = redoStack[0];
     setHistory((h) => [...h, grid]);
@@ -76,16 +96,16 @@ const handleBackgroundUpload = (e) => {
     setGrid(next);
   };
 
-  const clearGrid = () => {
+  const clearGrid = (): void => {
     pushHistory(createGrid(width, height));
   };
 
-  const resizeGrid = (newW, newH) => {
+  const resizeGrid = (newW: number, newH: number): void => {
     if (newW < width || newH < height) {
       alert("Уменьшение поля обрезает символы");
     }
 
-    const newGrid = Array.from({ length: newH }, (_, y) =>
+    const newGrid: Grid = Array.from({ length: newH }, (_, y) =>
       Array.from({ length: newW }, (_, x) =>
         grid[y] && grid[y][x] ? grid[y][x] : BRAILLE_BLANK
       )
@@ -96,15 +116,15 @@ const handleBackgroundUpload = (e) => {
     pushHistory(newGrid);
   };
 
-  const floodFill = (x, y, mode = "color") => {
-    const target = grid[y][x];
+  const floodFill = (x: number, y: number, mode: FillMode = "color"): void => {
+    const target = grid[y]?.[x];
     if (target === undefined) return;
 
     const newGrid = grid.map((r) => [...r]);
-    const stack = [[x, y]];
+    const stack: [number, number][] = [[x, y]];
 
     while (stack.length) {
-      const [cx, cy] = stack.pop();
+      const [cx, cy] = stack.pop() as [number, number];
 
       if (!newGrid[cy] || newGrid[cy][cx] === undefined) continue;
 
@@ -122,12 +142,13 @@ const handleBackgroundUpload = (e) => {
     pushHistory(newGrid);
   };
 
-  const copySelection = () => {
+  const copySelection = (): void => {
     if (!selection) return;
 
-    const data = [];
+    const data: string[][] = [];
+
     for (let y = selection.y1; y <= selection.y2; y++) {
-      const row = [];
+      const row: string[] = [];
       for (let x = selection.x1; x <= selection.x2; x++) {
         row.push(grid[y][x]);
       }
@@ -137,14 +158,14 @@ const handleBackgroundUpload = (e) => {
     setClipboard(data);
   };
 
-  const pasteSelection = (x, y) => {
+  const pasteSelection = (x: number, y: number): void => {
     if (!clipboard) return;
 
     const newGrid = grid.map((row) => [...row]);
 
     for (let dy = 0; dy < clipboard.length; dy++) {
       for (let dx = 0; dx < clipboard[0].length; dx++) {
-        if (newGrid[y + dy] && newGrid[y + dy][x + dx] !== undefined) {
+        if (newGrid[y + dy]?.[x + dx] !== undefined) {
           newGrid[y + dy][x + dx] = clipboard[dy][dx];
         }
       }
@@ -153,7 +174,7 @@ const handleBackgroundUpload = (e) => {
     pushHistory(newGrid);
   };
 
-  const deleteSelection = () => {
+  const deleteSelection = (): void => {
     if (!selection) return;
 
     const newGrid = grid.map((row) => [...row]);
@@ -167,13 +188,13 @@ const handleBackgroundUpload = (e) => {
     pushHistory(newGrid);
   };
 
-  const rotateSelection = () => {
+  const rotateSelection = (): void => {
     if (!selection) return;
 
     const selectionWidth = selection.x2 - selection.x1 + 1;
     const selectionHeight = selection.y2 - selection.y1 + 1;
 
-    const temp = [];
+    const temp: string[][] = [];
 
     for (let y = 0; y < selectionHeight; y++) {
       temp[y] = [];
@@ -182,8 +203,9 @@ const handleBackgroundUpload = (e) => {
       }
     }
 
-    const rotated = Array.from({ length: selectionWidth }, () =>
-      Array(selectionHeight).fill(BRAILLE_BLANK)
+    const rotated: string[][] = Array.from(
+      { length: selectionWidth },
+      () => Array(selectionHeight).fill(BRAILLE_BLANK)
     );
 
     for (let y = 0; y < selectionHeight; y++) {
@@ -196,10 +218,7 @@ const handleBackgroundUpload = (e) => {
 
     for (let y = 0; y < rotated.length; y++) {
       for (let x = 0; x < rotated[0].length; x++) {
-        if (
-          newGrid[selection.y1 + y] &&
-          newGrid[selection.y1 + y][selection.x1 + x] !== undefined
-        ) {
+        if (newGrid[selection.y1 + y]?.[selection.x1 + x] !== undefined) {
           newGrid[selection.y1 + y][selection.x1 + x] = rotated[y][x];
         }
       }
@@ -212,7 +231,7 @@ const handleBackgroundUpload = (e) => {
     <div className="app">
       <Toolbar
         selectedTool={selectedTool}
-        setSelectedTool={setSelectedTool}
+        setSelectedTool={(tool: Tool) => setSelectedTool(tool)}
         brushSize={brushSize}
         setBrushSize={setBrushSize}
         selectedSymbol={selectedSymbol}
@@ -221,9 +240,17 @@ const handleBackgroundUpload = (e) => {
         redo={redo}
         clearGrid={clearGrid}
         resizeGrid={resizeGrid}
+        copySelection={copySelection}
+        pasteSelection={pasteSelection}
+        deleteSelection={deleteSelection}
+        rotateSelection={rotateSelection}
       />
 
-      <BackgroundLayer background={background} setBackground={setBackground} />
+      <BackgroundLayer
+        background={background}
+        setBackground={setBackground}
+        handleBackgroundUpload={handleBackgroundUpload}
+      />
 
       <GridEditor
         grid={grid}
@@ -232,7 +259,9 @@ const handleBackgroundUpload = (e) => {
         selectedSymbol={selectedSymbol}
         setSelectedSymbol={setSelectedSymbol}
         brushSize={brushSize}
-        floodFill={(x, y) => floodFill(x, y, fillMode)}
+        floodFill={(x: number, y: number) =>
+          floodFill(x, y, fillMode)
+        }
         selection={selection}
         setSelection={setSelection}
       />
@@ -240,4 +269,8 @@ const handleBackgroundUpload = (e) => {
       <OutputPanel grid={grid} />
     </div>
   );
+}
+
+export default function App() {
+  return <h1>WORKS ONLY</h1>;
 }
