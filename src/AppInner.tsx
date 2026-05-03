@@ -271,6 +271,3 @@ export default function AppInner(): React.ReactElement {
   );
 }
 
-export default function App() {
-  return <h1>WORKS ONLY</h1>;
-}
