@@ -1,15 +1,10 @@
-import './App.css'
+import AppInner from './AppInner';
 
-function App() {
-
-
+export default function App() {
   return (
     <>
-    <h1>MainPage</h1>
-
-
+      <h1></h1>
+      <AppInner />
     </>
-  )
+  );
 }
-
-export default App
