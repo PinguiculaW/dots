@@ -2,6 +2,9 @@ import React from "react";
 
 import type { Tool } from "../types";
 
+import BrailleEditorModal from "./BrailleEditorModal";
+import { useState } from "react";
+
 interface ToolbarProps {
   selectedTool: Tool;
   setSelectedTool: (tool: Tool) => void;
@@ -17,6 +20,8 @@ interface ToolbarProps {
   pasteSelection: (x: number, y: number) => void;
   deleteSelection: () => void;
   rotateSelection: () => void;
+  width: number;
+  height: number;
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({
@@ -34,8 +39,11 @@ const Toolbar: React.FC<ToolbarProps> = ({
   pasteSelection,
   deleteSelection,
   rotateSelection,
+  width,
+  height,
 }) => {
-  const toolButton = (tool: Tool, icon: string) => (
+    const [showModal, setShowModal] = useState(false);
+    const toolButton = (tool: Tool, icon: string) => (
     <button
       onClick={() => setSelectedTool(tool)}
       style={{
@@ -53,6 +61,16 @@ const Toolbar: React.FC<ToolbarProps> = ({
       {toolButton("brush", "🖌")}
       {toolButton("fill", "🪣")}
       {toolButton("select", "▢")}
+        {showModal && (
+            <BrailleEditorModal
+                initial={selectedSymbol}
+                onApply={(value) => {
+                    setSelectedSymbol(value);
+                    setShowModal(false);
+                }}
+                onClose={() => setShowModal(false)}
+            />
+        )}
 
       <button onClick={undo}>↩</button>
       <button onClick={redo}>↪</button>
@@ -88,10 +106,26 @@ const Toolbar: React.FC<ToolbarProps> = ({
         maxLength={1}
         style={{ width: 30, marginLeft: 10 }}
       />
-
+        <button onClick={() => setShowModal(true)}>⚙️</button>
       <div className="symbol-preview">{selectedSymbol}</div>
+        <div className="grid-size-controls">
+            <div className="control">
+                <button onClick={() => resizeGrid(width - 1, height)}>-</button>
+                <input type="number" value={width} readOnly />
+                <button onClick={() => resizeGrid(width + 1, height)}>+</button>
+                <span>Cols</span>
+            </div>
+
+            <div className="control">
+                <button onClick={() => resizeGrid(width, height - 1)}>-</button>
+                <input type="number" value={height} readOnly />
+                <button onClick={() => resizeGrid(width, height + 1)}>+</button>
+                <span>Rows</span>
+            </div>
+        </div>
     </div>
   );
 };
 
 export default Toolbar;
+

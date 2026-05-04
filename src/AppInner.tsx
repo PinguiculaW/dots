@@ -101,16 +101,39 @@ export default function AppInner(): React.ReactElement {
   };
 
   const resizeGrid = (newW: number, newH: number): void => {
-    if (newW < width || newH < height) {
-      alert("Уменьшение поля обрезает символы");
+    // защита от некорректных значений
+    if (newW < 1 || newH < 1) return;
+
+    // 🔍 проверяем, будут ли обрезаны НЕпустые клетки
+    const willCrop = (() => {
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          const isOutside = x >= newW || y >= newH;
+
+          if (isOutside && grid[y][x] !== BRAILLE_BLANK) {
+            return true;
+          }
+        }
+      }
+      return false;
+    })();
+
+    // ⚠️ предупреждаем только если реально есть что терять
+    if (willCrop) {
+      const confirmed = window.confirm(
+          "Уменьшение поля обрежет символы. Продолжить?"
+      );
+      if (!confirmed) return;
     }
 
+    // 🧱 создаём новую сетку
     const newGrid: Grid = Array.from({ length: newH }, (_, y) =>
-      Array.from({ length: newW }, (_, x) =>
-        grid[y] && grid[y][x] ? grid[y][x] : BRAILLE_BLANK
-      )
+        Array.from({ length: newW }, (_, x) =>
+            grid[y] && grid[y][x] ? grid[y][x] : BRAILLE_BLANK
+        )
     );
 
+    // обновляем состояние
     setWidth(newW);
     setHeight(newH);
     pushHistory(newGrid);
@@ -244,27 +267,31 @@ export default function AppInner(): React.ReactElement {
         pasteSelection={pasteSelection}
         deleteSelection={deleteSelection}
         rotateSelection={rotateSelection}
+        width={width}
+        height={height}
       />
 
-      <BackgroundLayer
-        background={background}
-        setBackground={setBackground}
-        handleBackgroundUpload={handleBackgroundUpload}
-      />
+      <div className="workspace">
+        <BackgroundLayer
+            background={background}
+            setBackground={setBackground}
+            handleBackgroundUpload={handleBackgroundUpload}
+        />
 
-      <GridEditor
-        grid={grid}
-        pushHistory={pushHistory}
-        selectedTool={selectedTool}
-        selectedSymbol={selectedSymbol}
-        setSelectedSymbol={setSelectedSymbol}
-        brushSize={brushSize}
-        floodFill={(x: number, y: number) =>
-          floodFill(x, y, fillMode)
-        }
-        selection={selection}
-        setSelection={setSelection}
-      />
+        <GridEditor
+            grid={grid}
+            pushHistory={pushHistory}
+            selectedTool={selectedTool}
+            selectedSymbol={selectedSymbol}
+            setSelectedSymbol={setSelectedSymbol}
+            brushSize={brushSize}
+            floodFill={(x: number, y: number) =>
+                floodFill(x, y, fillMode)
+            }
+            selection={selection}
+            setSelection={setSelection}
+        />
+      </div>
 
       <OutputPanel grid={grid} />
     </div>

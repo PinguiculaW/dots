@@ -47,7 +47,13 @@ export default function BrailleEditorModal({
           ))}
         </div>
 
-        <button onClick={() => onApply(dotsToBraille(dots))}>
+        <button
+            onClick={() => {
+              const symbol = dotsToBraille(dots);
+              console.log("APPLY SYMBOL:", symbol);
+              onApply(symbol);
+            }}
+        >
           Применить
         </button>
         <button onClick={onClose}>Закрыть</button>

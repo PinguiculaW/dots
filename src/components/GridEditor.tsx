@@ -41,6 +41,10 @@ const GridEditor: React.FC<GridEditorProps> = ({
   selection,
   setSelection,
 }) => {
+  console.log(
+      "SYMBOL:",
+      selectedSymbol === BRAILLE_BLANK ? "EMPTY" : selectedSymbol
+  );
   const [hoverCell, setHoverCell] = useState<Point | null>(null);
   const [isDrawing, setIsDrawing] = useState<boolean>(false);
   const [selectionStart, setSelectionStart] = useState<Point | null>(null);
