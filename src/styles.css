@@ -72,6 +72,7 @@ body {
   left: 0;
   pointer-events: auto;
   z-index: 0;
+  transform-origin: center;
 }
 
 .output textarea {

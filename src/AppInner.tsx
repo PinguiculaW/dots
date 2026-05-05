@@ -47,6 +47,7 @@ export default function AppInner(): React.ReactElement {
     x: 0,
     y: 0,
     scale: 1,
+    rotation: 0,
     opacity: 0.5,
     draggable: false,
   });
@@ -67,6 +68,7 @@ export default function AppInner(): React.ReactElement {
         x: 0,
         y: 0,
         scale: 1,
+        rotation: 0,
         opacity: 0.5,
         draggable: true,
       });
@@ -331,6 +333,23 @@ export default function AppInner(): React.ReactElement {
                     setBackground((prev) => ({
                       ...prev,
                       scale: Number(e.target.value),
+                    }))
+                }
+            />
+          </div>
+
+          <div className="control">
+            <label>Вращение</label>
+            <input
+                type="range"
+                min={-180}
+                max={180}
+                step="1"
+                value={background.rotation}
+                onChange={(e) =>
+                    setBackground((prev) => ({
+                      ...prev,
+                      rotation: Number(e.target.value),
                     }))
                 }
             />

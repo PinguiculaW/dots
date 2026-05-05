@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-
-interface Background {
+import type { Background } from "../types";
+/*interface Background {
   image: string | null;
   x: number;
   y: number;
   scale: number;
   opacity: number;
   draggable: boolean;
-}
+}*/
 
 interface BackgroundLayerProps {
   background: Background;
@@ -39,7 +39,11 @@ export default function BackgroundLayer({
       alt=""
       className="background"
       style={{
-        transform: `translate(${background.x}px, ${background.y}px) scale(${background.scale})`,
+        transform: `
+          translate(${background.x}px, ${background.y}px)
+          scale(${background.scale})
+          rotate(${background.rotation}deg)
+        `,
         opacity: background.opacity,
       }}
       draggable={false}
