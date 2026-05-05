@@ -8,9 +8,16 @@ export type Background = {
   draggable: boolean;
 };
 
+export type Selection = {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+} | null;
+
 export type Tool =
-    | "paste"
-    | "eraser"
+  | "paste"
+  | "eraser"
   | "fill"
   | "select"
   | "pencil"

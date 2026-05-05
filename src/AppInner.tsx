@@ -5,20 +5,13 @@ import OutputPanel from "./components/OutputPanel";
 import BackgroundLayer from "./components/BackgroundLayer";
 import { BRAILLE_BLANK } from "./utils/braille";
 import "./styles.css";
+import type { Tool, Background, Selection } from "./types";
 
-import type { Tool, Background } from "./types";
 
 // ====== TYPES ======
 type Grid = string[][];
 
 type FillMode = "color" | "empty";
-
-type Selection = {
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
-} | null;
 
 type ClipboardData = string[][] | null;
 
@@ -214,6 +207,7 @@ export default function AppInner(): React.ReactElement {
         copySelection={copySelection}
         width={width}
         height={height}
+        setSelection={setSelection}
       />
 
       <div className="workspace">

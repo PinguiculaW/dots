@@ -1,9 +1,8 @@
 import React from "react";
 
-import type { Tool } from "../types";
-
 import BrailleEditorModal from "./BrailleEditorModal";
 import { useState } from "react";
+import type { Tool, Selection } from "../types";
 
 interface ToolbarProps {
   selectedTool: Tool;
@@ -18,6 +17,7 @@ interface ToolbarProps {
   copySelection: () => void;
   width: number;
   height: number;
+  setSelection: (selection: Selection) => void;
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({
@@ -33,16 +33,20 @@ const Toolbar: React.FC<ToolbarProps> = ({
   copySelection,
   width,
   height,
+  setSelection,
 }) => {
     const [showModal, setShowModal] = useState(false);
     const toolButton = (tool: Tool, icon: string) => (
-    <button
-      onClick={() => setSelectedTool(tool)}
-      className={selectedTool === tool ? "tool active" : "tool"}
-    >
-      {icon}
-    </button>
-  );
+        <button
+            onClick={() => {
+                setSelectedTool(tool);
+                setSelection(null); // 🔥 вот это ключ
+            }}
+            className={selectedTool === tool ? "tool active" : "tool"}
+        >
+            {icon}
+        </button>
+    );
 
   return (
     <div className="toolbar">

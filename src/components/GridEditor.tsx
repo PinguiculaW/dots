@@ -1,18 +1,10 @@
-//import React, { useState, useRef } from "react";
 import { BRAILLE_BLANK } from "../utils/braille";
-import type { Tool } from "../types";
 import React, { useState, useRef, useLayoutEffect } from "react";
+import type { Tool, Selection } from "../types";
 
 type Cell = string;
 type Grid = Cell[][];
 
-
-interface Selection {
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
-}
 
 interface Point {
   x: number;
