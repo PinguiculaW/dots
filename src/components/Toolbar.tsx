@@ -16,7 +16,6 @@ interface ToolbarProps {
   redo: () => void;
   resizeGrid: (width: number, height: number) => void;
   copySelection: () => void;
-  pasteSelection: (x: number, y: number) => void;
   width: number;
   height: number;
 }
@@ -32,7 +31,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
   redo,
   resizeGrid,
   copySelection,
-  pasteSelection,
   width,
   height,
 }) => {
@@ -41,9 +39,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
     <button
       onClick={() => setSelectedTool(tool)}
       className={selectedTool === tool ? "tool active" : "tool"}
-      /*style={{
-        background: selectedTool === tool ? "#ddd" : "transparent",
-      }}*/
     >
       {icon}
     </button>
@@ -61,7 +56,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
         <div className="group">
       {toolButton("select", "▢")}
         <button onClick={copySelection}>📋</button>
-        <button onClick={() => pasteSelection(0, 0)}>📥</button>
+            {toolButton("paste", "📥")}
         </div>
 
         <div className="group">

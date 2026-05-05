@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { BRAILLE_BLANK } from "../utils/braille";
+import type { Tool } from "../types";
 
 type Cell = string;
 type Grid = Cell[][];
 
-type Tool = "pencil" | "picker" | "fill" | "select" | "eraser";
 
 interface Selection {
   x1: number;
@@ -28,6 +28,8 @@ interface GridEditorProps {
   floodFill: (x: number, y: number) => void;
   selection: Selection | null;
   setSelection: (selection: Selection | null) => void;
+  pasteSelection: (x: number, y: number) => void;
+  setSelectedTool: (tool: Tool) => void;
 }
 
 const GridEditor: React.FC<GridEditorProps> = ({
@@ -40,6 +42,8 @@ const GridEditor: React.FC<GridEditorProps> = ({
   floodFill,
   selection,
   setSelection,
+  pasteSelection,
+  setSelectedTool,
 }) => {
   console.log(
       "SYMBOL:",
@@ -54,6 +58,11 @@ const GridEditor: React.FC<GridEditorProps> = ({
   };
 
   const handleAction = (x: number, y: number) => {
+
+    if (selectedTool === "paste") {
+      pasteSelection(x, y);
+      setSelectedTool("pencil"); // или "select", если хочешь
+    }
 
     if (selectedTool === "eraser") {
       const newGrid = grid.map((row) => [...row]);

@@ -212,7 +212,6 @@ export default function AppInner(): React.ReactElement {
         redo={redo}
         resizeGrid={resizeGrid}
         copySelection={copySelection}
-        pasteSelection={pasteSelection}
         width={width}
         height={height}
       />
@@ -237,6 +236,8 @@ export default function AppInner(): React.ReactElement {
               }
               selection={selection}
               setSelection={setSelection}
+              pasteSelection={pasteSelection}
+              setSelectedTool={setSelectedTool}
           />
         </div>
 
