@@ -37,6 +37,10 @@ body {
   line-height: 1;
   z-index: 1;
   margin-top: 20px;
+
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .row {
@@ -63,6 +67,8 @@ body {
 
   position: relative;
   z-index: 1;
+
+  user-select: none;
 }
 
 .cell.hover {
