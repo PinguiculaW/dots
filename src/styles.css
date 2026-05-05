@@ -151,9 +151,26 @@ button.copied {
 }
 
 .control {
+  /*display: flex;*/
+  /*align-items: center;*/
+  /*gap: 5px;*/
   display: flex;
-  align-items: center;
-  gap: 5px;
+  flex-direction: column; /* 👈 ключ */
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.control label {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.bg-controls h3 {
+  margin-top: 0;
+}
+
+.control input[type="range"] {
+  width: 100%;
 }
 
 .control input {
