@@ -42,9 +42,10 @@ const Toolbar: React.FC<ToolbarProps> = ({
     const toolButton = (tool: Tool, icon: string) => (
     <button
       onClick={() => setSelectedTool(tool)}
-      style={{
+      className={selectedTool === tool ? "tool active" : "tool"}
+      /*style={{
         background: selectedTool === tool ? "#ddd" : "transparent",
-      }}
+      }}*/
     >
       {icon}
     </button>

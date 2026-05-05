@@ -178,9 +178,6 @@ button.copied {
 
 .canvas-area {
   position: relative;
-  /*display: flex;*/
-  /*justify-content: center;*/
-  /*align-items: center;*/
 }
 
 .bg-controls {
@@ -201,4 +198,37 @@ button.copied {
   display: flex;
   gap: 2px;
   margin-right: 20px; /* ← ВОТ ЭТО даёт отступ между блоками */
+}
+
+/* обычное состояние */
+.tool {
+  background: white;
+  border: 1px solid #c1c1c1;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+/* при наведении */
+.tool:hover {
+  background: #b6b6b6;
+}
+
+/* выбранный инструмент */
+.tool.active {
+  background: #82e36a;
+  border-color: #424040;
+}
+
+
+button {
+  background: white;
+  border: 2px solid #979595;
+}
+
+button:hover {
+  background: #6fd8dc;
+}
+
+button:active {
+  background: #2343c6;
 }
