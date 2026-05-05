@@ -98,9 +98,9 @@ export default function AppInner(): React.ReactElement {
     setGrid(next);
   };
 
-  const clearGrid = (): void => {
+  /*const clearGrid = (): void => {
     pushHistory(createGrid(width, height));
-  };
+  };*/
 
   const resizeGrid = (newW: number, newH: number): void => {
     // защита от некорректных значений
@@ -210,7 +210,7 @@ export default function AppInner(): React.ReactElement {
         setSelectedSymbol={setSelectedSymbol}
         undo={undo}
         redo={redo}
-        clearGrid={clearGrid}
+        //clearGrid={clearGrid}
         resizeGrid={resizeGrid}
         copySelection={copySelection}
         pasteSelection={pasteSelection}

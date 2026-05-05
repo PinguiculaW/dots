@@ -4,7 +4,7 @@ import { BRAILLE_BLANK } from "../utils/braille";
 type Cell = string;
 type Grid = Cell[][];
 
-type Tool = "pencil" | "picker" | "fill" | "select";
+type Tool = "pencil" | "picker" | "fill" | "select" | "eraser";
 
 interface Selection {
   x1: number;
@@ -54,6 +54,12 @@ const GridEditor: React.FC<GridEditorProps> = ({
   };
 
   const handleAction = (x: number, y: number) => {
+
+    if (selectedTool === "eraser") {
+      const newGrid = grid.map((row) => [...row]);
+      newGrid[y][x] = BRAILLE_BLANK;
+      pushHistory(newGrid);
+    }
     // ✏️ Pencil
     if (selectedTool === "pencil") {
       const newGrid = grid.map((row) => [...row]);

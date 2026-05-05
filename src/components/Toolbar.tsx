@@ -14,7 +14,6 @@ interface ToolbarProps {
   setSelectedSymbol: (symbol: string) => void;
   undo: () => void;
   redo: () => void;
-  clearGrid: () => void;
   resizeGrid: (width: number, height: number) => void;
   copySelection: () => void;
   pasteSelection: (x: number, y: number) => void;
@@ -31,7 +30,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
   setSelectedSymbol,
   undo,
   redo,
-  clearGrid,
   resizeGrid,
   copySelection,
   pasteSelection,
@@ -55,7 +53,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
     <div className="toolbar">
         <div className="group">
       {toolButton("pencil", "✏️")}
-        <button onClick={clearGrid}>🧽</button>
+            {toolButton("eraser", "🧽")}
       {toolButton("picker", "🎯")}
       {toolButton("fill", "🪣")}
         </div>
