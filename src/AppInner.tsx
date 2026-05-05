@@ -52,9 +52,6 @@ export default function AppInner(): React.ReactElement {
     draggable: false,
   });
 
-  //const maxOffsetX = width * 30;
-  //const maxOffsetY = height * 30;
-
   const handleBackgroundUpload = (
     e: React.ChangeEvent<HTMLInputElement>
   ): void => {

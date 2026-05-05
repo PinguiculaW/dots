@@ -152,9 +152,6 @@ button.copied {
 }
 
 .control {
-  /*display: flex;*/
-  /*align-items: center;*/
-  /*gap: 5px;*/
   display: flex;
   flex-direction: column; /* 👈 ключ */
   gap: 4px;
@@ -192,4 +189,16 @@ button.copied {
   top: 20px;
 
   width: 220px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+}
+
+/* расстояние между ГРУППАМИ */
+.group {
+  display: flex;
+  gap: 2px;
+  margin-right: 20px; /* ← ВОТ ЭТО даёт отступ между блоками */
 }

@@ -52,10 +52,24 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
   return (
     <div className="toolbar">
+        <div className="group">
       {toolButton("pencil", "✏️")}
+        <button onClick={clearGrid}>🧽</button>
       {toolButton("picker", "🎯")}
       {toolButton("fill", "🪣")}
+        </div>
+
+        <div className="group">
       {toolButton("select", "▢")}
+        <button onClick={copySelection}>📋</button>
+        <button onClick={() => pasteSelection(0, 0)}>📥</button>
+        </div>
+
+        <div className="group">
+            <button onClick={undo}>↩</button>
+            <button onClick={redo}>↪</button>
+        </div>
+
         {showModal && (
             <BrailleEditorModal
                 initial={selectedSymbol}
@@ -66,14 +80,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
                 onClose={() => setShowModal(false)}
             />
         )}
-
-      <button onClick={undo}>↩</button>
-      <button onClick={redo}>↪</button>
-
-      <button onClick={clearGrid}>🧽</button>
-
-      <button onClick={copySelection}>📋</button>
-      <button onClick={() => pasteSelection(0, 0)}>📥</button>
 
       <label>
         Размер:
