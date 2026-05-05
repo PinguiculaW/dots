@@ -210,7 +210,6 @@ export default function AppInner(): React.ReactElement {
         setSelectedSymbol={setSelectedSymbol}
         undo={undo}
         redo={redo}
-        //clearGrid={clearGrid}
         resizeGrid={resizeGrid}
         copySelection={copySelection}
         pasteSelection={pasteSelection}

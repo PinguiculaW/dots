@@ -105,7 +105,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
         style={{ width: 30, marginLeft: 10 }}
       />
         <button onClick={() => setShowModal(true)}>⚙️</button>
-      <div className="symbol-preview">{selectedSymbol}</div>
         <div className="grid-size-controls">
             <div className="control">
                 <button onClick={() => resizeGrid(width - 1, height)}>-</button>
