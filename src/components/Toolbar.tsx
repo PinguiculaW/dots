@@ -18,8 +18,6 @@ interface ToolbarProps {
   resizeGrid: (width: number, height: number) => void;
   copySelection: () => void;
   pasteSelection: (x: number, y: number) => void;
-  deleteSelection: () => void;
-  rotateSelection: () => void;
   width: number;
   height: number;
 }
@@ -37,8 +35,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
   resizeGrid,
   copySelection,
   pasteSelection,
-  deleteSelection,
-  rotateSelection,
   width,
   height,
 }) => {
@@ -58,7 +54,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
     <div className="toolbar">
       {toolButton("pencil", "✏️")}
       {toolButton("picker", "🎯")}
-      {toolButton("brush", "🖌")}
       {toolButton("fill", "🪣")}
       {toolButton("select", "▢")}
         {showModal && (
@@ -79,8 +74,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
       <button onClick={copySelection}>📋</button>
       <button onClick={() => pasteSelection(0, 0)}>📥</button>
-      <button onClick={deleteSelection}>❌</button>
-      <button onClick={rotateSelection}>🔄</button>
 
       <label>
         Размер:

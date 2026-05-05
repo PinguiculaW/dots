@@ -36,7 +36,7 @@ export default function AppInner(): React.ReactElement {
   const [history, setHistory] = useState<Grid[]>([]);
   const [redoStack, setRedoStack] = useState<Grid[]>([]);
 
-  const [selectedTool, setSelectedTool] = useState<Tool>("brush");
+  const [selectedTool, setSelectedTool] = useState<Tool>("select");
   const [selectedSymbol, setSelectedSymbol] =
     useState<string>(BRAILLE_BLANK);
   const [brushSize, setBrushSize] = useState<number>(1);
@@ -202,59 +202,6 @@ export default function AppInner(): React.ReactElement {
     pushHistory(newGrid);
   };
 
-  const deleteSelection = (): void => {
-    if (!selection) return;
-
-    const newGrid = grid.map((row) => [...row]);
-
-    for (let y = selection.y1; y <= selection.y2; y++) {
-      for (let x = selection.x1; x <= selection.x2; x++) {
-        newGrid[y][x] = BRAILLE_BLANK;
-      }
-    }
-
-    pushHistory(newGrid);
-  };
-
-  const rotateSelection = (): void => {
-    if (!selection) return;
-
-    const selectionWidth = selection.x2 - selection.x1 + 1;
-    const selectionHeight = selection.y2 - selection.y1 + 1;
-
-    const temp: string[][] = [];
-
-    for (let y = 0; y < selectionHeight; y++) {
-      temp[y] = [];
-      for (let x = 0; x < selectionWidth; x++) {
-        temp[y][x] = grid[selection.y1 + y][selection.x1 + x];
-      }
-    }
-
-    const rotated: string[][] = Array.from(
-      { length: selectionWidth },
-      () => Array(selectionHeight).fill(BRAILLE_BLANK)
-    );
-
-    for (let y = 0; y < selectionHeight; y++) {
-      for (let x = 0; x < selectionWidth; x++) {
-        rotated[x][selectionHeight - y - 1] = temp[y][x];
-      }
-    }
-
-    const newGrid = grid.map((row) => [...row]);
-
-    for (let y = 0; y < rotated.length; y++) {
-      for (let x = 0; x < rotated[0].length; x++) {
-        if (newGrid[selection.y1 + y]?.[selection.x1 + x] !== undefined) {
-          newGrid[selection.y1 + y][selection.x1 + x] = rotated[y][x];
-        }
-      }
-    }
-
-    pushHistory(newGrid);
-  };
-
   return (
     <div className="app">
       <Toolbar
@@ -270,8 +217,6 @@ export default function AppInner(): React.ReactElement {
         resizeGrid={resizeGrid}
         copySelection={copySelection}
         pasteSelection={pasteSelection}
-        deleteSelection={deleteSelection}
-        rotateSelection={rotateSelection}
         width={width}
         height={height}
       />

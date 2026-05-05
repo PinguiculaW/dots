@@ -9,7 +9,6 @@ export type Background = {
 };
 
 export type Tool =
-  | "brush"
   | "fill"
   | "select"
   | "pencil"
