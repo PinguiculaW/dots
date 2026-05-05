@@ -249,3 +249,43 @@ button:hover {
 button:active {
   background: #2343c6;
 }
+
+.grid-size-controls .control {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 👈 ВАЖНО */
+  gap: 4px;
+}
+
+.grid-size-controls .control > div {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 👈 центрируем кнопки */
+  gap: 4px;
+}
+
+.grid-size-controls label {
+  text-align: center; /* 👈 центр текста */
+  width: 100%;        /* 👈 чтобы реально центрировался */
+}
+
+.grid-size-controls input {
+  width: 30px;      /* 👈 уменьшаем ширину */
+  height: 16px;     /* 👈 чуть компактнее */
+  text-align: center;
+  font-size: 12px;
+  padding: 0;
+}
+
+
+/* Chrome / Edge / Safari */
+.grid-size-controls input::-webkit-outer-spin-button,
+.grid-size-controls input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.grid-size-controls input[type="number"] {
+  -moz-appearance: textfield;
+}
