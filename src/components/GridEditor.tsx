@@ -80,6 +80,7 @@ const GridEditor: React.FC<GridEditorProps> = ({
   );
   const [hoverCell, setHoverCell] = useState<Point | null>(null);
   const [isDrawing, setIsDrawing] = useState<boolean>(false);
+  const [tempGrid, setTempGrid] = useState<Grid | null>(null);
   const [selectionStart, setSelectionStart] = useState<Point | null>(null);
 
   const applyBrush = (
@@ -87,7 +88,8 @@ const GridEditor: React.FC<GridEditorProps> = ({
       y: number,
       callback: (gx: number, gy: number, grid: Grid) => void
   ) => {
-    const newGrid = grid.map((row) => [...row]);
+    const base = tempGrid || grid;
+    const newGrid = base.map((row) => [...row]);
 
     for (let dy = 0; dy < brushSize; dy++) {
       for (let dx = 0; dx < brushSize; dx++) {
@@ -100,7 +102,7 @@ const GridEditor: React.FC<GridEditorProps> = ({
       }
     }
 
-    pushHistory(newGrid);
+    setTempGrid(newGrid); // ✅ вместо pushHistory
   };
 
   const handleAction = (x: number, y: number) => {
@@ -152,8 +154,22 @@ const GridEditor: React.FC<GridEditorProps> = ({
     <div
           ref={gridRef}
           className="grid"
-      onMouseUp={() => setIsDrawing(false)}
-      onMouseLeave={() => setIsDrawing(false)}
+          onMouseUp={() => {
+            setIsDrawing(false);
+
+            if (tempGrid) {
+              pushHistory(tempGrid); // 👈 ОДИН раз
+              setTempGrid(null);
+            }
+          }}
+          onMouseLeave={() => {
+            setIsDrawing(false);
+
+            if (tempGrid) {
+              pushHistory(tempGrid);
+              setTempGrid(null);
+            }
+          }}
     >
       {boxStyle && (
           <div
@@ -162,7 +178,7 @@ const GridEditor: React.FC<GridEditorProps> = ({
           />
       )}
 
-      {grid.map((row, y) => (
+      {(tempGrid || grid).map((row, y) => (
         <div key={y} className="row">
           {row.map((cell, x) => {
             const isHover =
@@ -182,6 +198,7 @@ const GridEditor: React.FC<GridEditorProps> = ({
                 `}
                 onMouseDown={() => {
                   setIsDrawing(true);
+                  setTempGrid(grid); // 👈 старт рисования
                   handleAction(x, y);
                 }}
                 onMouseEnter={() => {
