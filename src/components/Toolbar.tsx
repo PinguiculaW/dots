@@ -106,16 +106,16 @@ const Toolbar: React.FC<ToolbarProps> = ({
         <button onClick={() => setShowModal(true)}>⚙️</button>
         <div className="grid-size-controls">
             <div className="control">
-                <button onClick={() => resizeGrid(width - 1, height)}>-</button>
-                <input type="number" value={width} readOnly />
                 <button onClick={() => resizeGrid(width + 1, height)}>+</button>
+                <input type="number" value={width} readOnly />
+                <button onClick={() => resizeGrid(width - 1, height)}>-</button>
                 <span>Cols</span>
             </div>
 
             <div className="control">
-                <button onClick={() => resizeGrid(width, height - 1)}>-</button>
-                <input type="number" value={height} readOnly />
                 <button onClick={() => resizeGrid(width, height + 1)}>+</button>
+                <input type="number" value={height} readOnly />
+                <button onClick={() => resizeGrid(width, height - 1)}>-</button>
                 <span>Rows</span>
             </div>
         </div>
