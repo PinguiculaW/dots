@@ -51,6 +51,9 @@ export default function AppInner(): React.ReactElement {
     draggable: false,
   });
 
+  //const maxOffsetX = width * 30;
+  //const maxOffsetY = height * 30;
+
   const handleBackgroundUpload = (
     e: React.ChangeEvent<HTMLInputElement>
   ): void => {
@@ -310,6 +313,51 @@ export default function AppInner(): React.ReactElement {
                   setBackground((prev) => ({
                     ...prev,
                     opacity: Number(e.target.value),
+                  }))
+              }
+          />
+
+          <label>Scale</label>
+          <input
+              type="range"
+              min="0.1"
+              max="3"
+              step="0.1"
+              value={background.scale}
+              onChange={(e) =>
+                  setBackground((prev) => ({
+                    ...prev,
+                    scale: Number(e.target.value),
+                  }))
+              }
+          />
+
+          <label>X</label>
+          <input
+              type="range"
+              min={-2000}
+              max={2000}
+              step="1"
+              value={background.x}
+              onChange={(e) =>
+                  setBackground((prev) => ({
+                    ...prev,
+                    x: Number(e.target.value),
+                  }))
+              }
+          />
+
+          <label>Y</label>
+          <input
+              type="range"
+              min={-2000}
+              max={2000}
+              step="1"
+              value={background.y}
+              onChange={(e) =>
+                  setBackground((prev) => ({
+                    ...prev,
+                    y: Number(e.target.value),
                   }))
               }
           />
