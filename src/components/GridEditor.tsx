@@ -82,10 +82,6 @@ const GridEditor: React.FC<GridEditorProps> = ({
   const [isDrawing, setIsDrawing] = useState<boolean>(false);
   const [selectionStart, setSelectionStart] = useState<Point | null>(null);
 
-  const toggleCell = (value: Cell): Cell => {
-    return value === selectedSymbol ? BRAILLE_BLANK : selectedSymbol;
-  };
-
   const applyBrush = (
       x: number,
       y: number,
@@ -122,7 +118,7 @@ const GridEditor: React.FC<GridEditorProps> = ({
     // ✏️ Pencil
     if (selectedTool === "pencil") {
       applyBrush(x, y, (nx, ny, newGrid) => {
-        newGrid[ny][nx] = toggleCell(newGrid[ny][nx]);
+        newGrid[ny][nx] = selectedSymbol;
       });
     }
 
