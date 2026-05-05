@@ -298,7 +298,7 @@ export default function AppInner(): React.ReactElement {
         </div>
 
         <div className="bg-controls">
-          <h3>Image</h3>
+          <h3>Параметры фоновой картинки</h3>
 
           <input type="file" onChange={handleBackgroundUpload} />
 
