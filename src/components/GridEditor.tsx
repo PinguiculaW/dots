@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+//import React, { useState, useRef } from "react";
 import { BRAILLE_BLANK } from "../utils/braille";
 import type { Tool } from "../types";
+import React, { useState, useRef, useLayoutEffect } from "react";
 
 type Cell = string;
 type Grid = Cell[][];
@@ -45,6 +46,41 @@ const GridEditor: React.FC<GridEditorProps> = ({
   pasteSelection,
   setSelectedTool,
 }) => {
+  const gridRef = useRef<HTMLDivElement | null>(null);
+  const [boxStyle, setBoxStyle] = useState<React.CSSProperties | null>(null);
+
+  useLayoutEffect(() => {
+    if (!selection || !gridRef.current) {
+      setBoxStyle(null);
+      return;
+    }
+
+    const start = gridRef.current.querySelector(
+        `[data-x="${selection.x1}"][data-y="${selection.y1}"]`
+    ) as HTMLElement | null;
+
+    const end = gridRef.current.querySelector(
+        `[data-x="${selection.x2}"][data-y="${selection.y2}"]`
+    ) as HTMLElement | null;
+
+    if (!start || !end) return;
+
+    const gridRect = gridRef.current.getBoundingClientRect();
+    const startRect = start.getBoundingClientRect();
+    const endRect = end.getBoundingClientRect();
+
+    const BORDER = 1;
+    const CELL_BORDER = 1;
+
+    setBoxStyle({
+      left: startRect.left - gridRect.left - BORDER - CELL_BORDER + "px",
+      top: startRect.top - gridRect.top - BORDER - CELL_BORDER + "px",
+      width: endRect.right - startRect.left + (BORDER + CELL_BORDER) * 2 + "px",
+      height: endRect.bottom - startRect.top + (BORDER + CELL_BORDER) * 2 + "px",
+    });
+  }, [selection, grid]);
+
+  console.log("SELECTION:", selection);
   console.log(
       "SYMBOL:",
       selectedSymbol === BRAILLE_BLANK ? "EMPTY" : selectedSymbol
@@ -104,10 +140,18 @@ const GridEditor: React.FC<GridEditorProps> = ({
 
   return (
     <div
-      className="grid"
+          ref={gridRef}
+          className="grid"
       onMouseUp={() => setIsDrawing(false)}
       onMouseLeave={() => setIsDrawing(false)}
     >
+      {boxStyle && (
+          <div
+              className="selection-box"
+              style={boxStyle}
+          />
+      )}
+
       {grid.map((row, y) => (
         <div key={y} className="row">
           {row.map((cell, x) => {
@@ -116,19 +160,13 @@ const GridEditor: React.FC<GridEditorProps> = ({
               Math.abs(hoverCell.x - x) < brushSize &&
               Math.abs(hoverCell.y - y) < brushSize;
 
-            const isSelected =
-              selection &&
-              x >= selection.x1 &&
-              x <= selection.x2 &&
-              y >= selection.y1 &&
-              y <= selection.y2;
-
             return (
               <div
                 key={x}
+                data-x={x}
+                data-y={y}
                 className={`cell 
-                  ${isHover ? "hover" : ""} 
-                  ${isSelected ? "selected" : ""}
+                  ${isHover ? "hover" : ""}
                 `}
                 onMouseDown={() => {
                   setIsDrawing(true);

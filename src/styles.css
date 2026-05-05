@@ -60,6 +60,9 @@ body {
 
   font-family: "Cascadia Code", monospace;
   box-sizing: content-box; /* Важно для точной ширины */
+
+  position: relative;
+  z-index: 1;
 }
 
 .cell.hover {
@@ -137,12 +140,20 @@ button.copied {
   color: white;
 }
 
-.cell.selected {
-  outline: 1px solid red;
-}
+/*.cell.selected {
+  /*outline: 1px solid red;*/
+  /*box-shadow: inset 0 0 0 2px #4a90e2;
+  /*background: rgba(74, 144, 226, 0.1);*/
+/*}*/
 
-.cell.selected {
-  outline: 1px solid red;
+.selection-box {
+  position: absolute;
+  border: 2px solid #044be8;
+  /*border: 2px solid red;*/
+  pointer-events: none;
+  box-sizing: border-box;
+  background: rgb(108 228 255 / 0.29); /* 👈 временно */
+  z-index: 999;
 }
 
 .grid-size-controls {
