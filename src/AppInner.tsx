@@ -51,6 +51,9 @@ export default function AppInner(): React.ReactElement {
     draggable: false,
   });
 
+  //const maxOffsetX = width * 30;
+  //const maxOffsetY = height * 30;
+
   const handleBackgroundUpload = (
     e: React.ChangeEvent<HTMLInputElement>
   ): void => {
@@ -272,25 +275,101 @@ export default function AppInner(): React.ReactElement {
       />
 
       <div className="workspace">
-        <BackgroundLayer
-            background={background}
-            setBackground={setBackground}
-            handleBackgroundUpload={handleBackgroundUpload}
-        />
+        <div className="canvas-area">
+          <BackgroundLayer
+              background={background}
+              setBackground={setBackground}
+              handleBackgroundUpload={handleBackgroundUpload}
+          />
 
-        <GridEditor
-            grid={grid}
-            pushHistory={pushHistory}
-            selectedTool={selectedTool}
-            selectedSymbol={selectedSymbol}
-            setSelectedSymbol={setSelectedSymbol}
-            brushSize={brushSize}
-            floodFill={(x: number, y: number) =>
-                floodFill(x, y, fillMode)
-            }
-            selection={selection}
-            setSelection={setSelection}
-        />
+          <GridEditor
+              grid={grid}
+              pushHistory={pushHistory}
+              selectedTool={selectedTool}
+              selectedSymbol={selectedSymbol}
+              setSelectedSymbol={setSelectedSymbol}
+              brushSize={brushSize}
+              floodFill={(x: number, y: number) =>
+                  floodFill(x, y, fillMode)
+              }
+              selection={selection}
+              setSelection={setSelection}
+          />
+        </div>
+
+        <div className="bg-controls">
+          <h3>Параметры фоновой картинки</h3>
+
+          <input type="file" onChange={handleBackgroundUpload} />
+
+          <div className="control">
+            <label>Прозрачность</label>
+            <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value={background.opacity}
+                onChange={(e) =>
+                    setBackground((prev) => ({
+                      ...prev,
+                      opacity: Number(e.target.value),
+                    }))
+                }
+            />
+          </div>
+
+          <div className="control">
+            <label>Размер</label>
+            <input
+                type="range"
+                min="0.1"
+                max="3"
+                step="0.1"
+                value={background.scale}
+                onChange={(e) =>
+                    setBackground((prev) => ({
+                      ...prev,
+                      scale: Number(e.target.value),
+                    }))
+                }
+            />
+          </div>
+
+          <div className="control">
+            <label>Движение по горизонтали</label>
+            <input
+                type="range"
+                min={-2000}
+                max={2000}
+                step="1"
+                value={background.x}
+                onChange={(e) =>
+                    setBackground((prev) => ({
+                      ...prev,
+                      x: Number(e.target.value),
+                    }))
+                }
+            />
+          </div>
+
+          <div className="control">
+            <label>Движение по вертикали</label>
+            <input
+                type="range"
+                min={-2000}
+                max={2000}
+                step="1"
+                value={background.y}
+                onChange={(e) =>
+                    setBackground((prev) => ({
+                      ...prev,
+                      y: Number(e.target.value),
+                    }))
+                }
+            />
+          </div>
+        </div>
       </div>
 
       <OutputPanel grid={grid} />
