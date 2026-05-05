@@ -272,25 +272,48 @@ export default function AppInner(): React.ReactElement {
       />
 
       <div className="workspace">
-        <BackgroundLayer
-            background={background}
-            setBackground={setBackground}
-            handleBackgroundUpload={handleBackgroundUpload}
-        />
+        <div className="canvas-area">
+          <BackgroundLayer
+              background={background}
+              setBackground={setBackground}
+              handleBackgroundUpload={handleBackgroundUpload}
+          />
 
-        <GridEditor
-            grid={grid}
-            pushHistory={pushHistory}
-            selectedTool={selectedTool}
-            selectedSymbol={selectedSymbol}
-            setSelectedSymbol={setSelectedSymbol}
-            brushSize={brushSize}
-            floodFill={(x: number, y: number) =>
-                floodFill(x, y, fillMode)
-            }
-            selection={selection}
-            setSelection={setSelection}
-        />
+          <GridEditor
+              grid={grid}
+              pushHistory={pushHistory}
+              selectedTool={selectedTool}
+              selectedSymbol={selectedSymbol}
+              setSelectedSymbol={setSelectedSymbol}
+              brushSize={brushSize}
+              floodFill={(x: number, y: number) =>
+                  floodFill(x, y, fillMode)
+              }
+              selection={selection}
+              setSelection={setSelection}
+          />
+        </div>
+
+        <div className="bg-controls">
+          <h3>Image</h3>
+
+          <input type="file" onChange={handleBackgroundUpload} />
+
+          <label>Opacity</label>
+          <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={background.opacity}
+              onChange={(e) =>
+                  setBackground((prev) => ({
+                    ...prev,
+                    opacity: Number(e.target.value),
+                  }))
+              }
+          />
+        </div>
       </div>
 
       <OutputPanel grid={grid} />
