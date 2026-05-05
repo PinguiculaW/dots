@@ -38,6 +38,7 @@ const GridEditor: React.FC<GridEditorProps> = ({
   pasteSelection,
   setSelectedTool,
 }) => {
+
   const gridRef = useRef<HTMLDivElement | null>(null);
   const [boxStyle, setBoxStyle] = useState<React.CSSProperties | null>(null);
 
@@ -85,6 +86,27 @@ const GridEditor: React.FC<GridEditorProps> = ({
     return value === selectedSymbol ? BRAILLE_BLANK : selectedSymbol;
   };
 
+  const applyBrush = (
+      x: number,
+      y: number,
+      callback: (gx: number, gy: number, grid: Grid) => void
+  ) => {
+    const newGrid = grid.map((row) => [...row]);
+
+    for (let dy = 0; dy < brushSize; dy++) {
+      for (let dx = 0; dx < brushSize; dx++) {
+        const nx = x + dx;
+        const ny = y + dy;
+
+        if (newGrid[ny] && newGrid[ny][nx] !== undefined) {
+          callback(nx, ny, newGrid);
+        }
+      }
+    }
+
+    pushHistory(newGrid);
+  };
+
   const handleAction = (x: number, y: number) => {
 
     if (selectedTool === "paste") {
@@ -93,15 +115,15 @@ const GridEditor: React.FC<GridEditorProps> = ({
     }
 
     if (selectedTool === "eraser") {
-      const newGrid = grid.map((row) => [...row]);
-      newGrid[y][x] = BRAILLE_BLANK;
-      pushHistory(newGrid);
+      applyBrush(x, y, (nx, ny, newGrid) => {
+        newGrid[ny][nx] = BRAILLE_BLANK;
+      });
     }
     // ✏️ Pencil
     if (selectedTool === "pencil") {
-      const newGrid = grid.map((row) => [...row]);
-      newGrid[y][x] = toggleCell(newGrid[y][x]);
-      pushHistory(newGrid);
+      applyBrush(x, y, (nx, ny, newGrid) => {
+        newGrid[ny][nx] = toggleCell(newGrid[ny][nx]);
+      });
     }
 
     // 🎯 Picker
@@ -148,9 +170,11 @@ const GridEditor: React.FC<GridEditorProps> = ({
         <div key={y} className="row">
           {row.map((cell, x) => {
             const isHover =
-              hoverCell &&
-              Math.abs(hoverCell.x - x) < brushSize &&
-              Math.abs(hoverCell.y - y) < brushSize;
+                hoverCell &&
+                x >= hoverCell.x &&
+                x < hoverCell.x + brushSize &&
+                y >= hoverCell.y &&
+                y < hoverCell.y + brushSize;
 
             return (
               <div
