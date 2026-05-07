@@ -110,6 +110,7 @@ const GridEditor: React.FC<GridEditorProps> = ({
     if (selectedTool === "paste") {
       pasteSelection(x, y);
       setSelectedTool("pencil"); // или "select", если хочешь
+      return
     }
 
     if (selectedTool === "eraser") {
@@ -157,15 +158,15 @@ const GridEditor: React.FC<GridEditorProps> = ({
           onMouseUp={() => {
             setIsDrawing(false);
 
-            if (tempGrid) {
-              pushHistory(tempGrid); // 👈 ОДИН раз
+            if ((selectedTool === "pencil" || selectedTool === "eraser") && tempGrid) {
+              pushHistory(tempGrid);
               setTempGrid(null);
             }
           }}
           onMouseLeave={() => {
             setIsDrawing(false);
 
-            if (tempGrid) {
+            if ((selectedTool === "pencil" || selectedTool === "eraser") && tempGrid) {
               pushHistory(tempGrid);
               setTempGrid(null);
             }
@@ -198,7 +199,11 @@ const GridEditor: React.FC<GridEditorProps> = ({
                 `}
                 onMouseDown={() => {
                   setIsDrawing(true);
-                  setTempGrid(grid); // 👈 старт рисования
+
+                  if (selectedTool === "pencil" || selectedTool === "eraser") {
+                    setTempGrid(grid);
+                  }
+
                   handleAction(x, y);
                 }}
                 onMouseEnter={() => {
