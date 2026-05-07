@@ -87,9 +87,8 @@ body {
 .output textarea {
   height: 150px;
   font-family: "Cascadia Code", monospace;
-  /*font-feature-settings: "liga" 0;*/
   font-size: 28px;          /* 👈 такой же как в .cell */
-  line-height: 1;           /* 🔥 убирает смещение */
+  line-height: 1.19;           /* 🔥 убирает смещение */
   width: 600px;
   min-width: 300px;
   min-height: 200px;
