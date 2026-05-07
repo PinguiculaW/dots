@@ -289,3 +289,10 @@ button:active {
 .grid-size-controls input[type="number"] {
   -moz-appearance: textfield;
 }
+
+
+.char-counter {
+  margin-top: 6px;
+  font-size: 14px;
+  opacity: 0.8;
+}
