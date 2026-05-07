@@ -85,18 +85,34 @@ body {
 }
 
 .output textarea {
-  width: 100%;
   height: 150px;
   font-family: "Cascadia Code", monospace;
   /*font-feature-settings: "liga" 0;*/
   font-size: 28px;          /* 👈 такой же как в .cell */
   line-height: 1;           /* 🔥 убирает смещение */
-  overflow-x: auto; /* Добавляем скролл при длинных строках */
+  width: 600px;
+  min-width: 300px;
+  min-height: 200px;
+  max-width: 100%;
+
+  resize: both;
+  overflow: auto;
+  margin-bottom: 50px
+}
+
+.output {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 button.copied {
   background: green;
   color: white;
+}
+
+.copy-btn {
+  margin-bottom: 10px;
 }
 
 .modal {
@@ -146,11 +162,6 @@ button.copied {
   color: white;
 }
 
-/*.cell.selected {
-  /*outline: 1px solid red;*/
-  /*box-shadow: inset 0 0 0 2px #4a90e2;
-  /*background: rgba(74, 144, 226, 0.1);*/
-/*}*/
 
 .selection-box {
   position: absolute;
@@ -288,4 +299,27 @@ button:active {
 /* Firefox */
 .grid-size-controls input[type="number"] {
   -moz-appearance: textfield;
+}
+
+
+.stats-box {
+  margin-top: 40px;
+  margin-bottom: 16px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #7ce6e6;
+  border: 2px solid #9360ec;
+}
+
+.stats-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
 }

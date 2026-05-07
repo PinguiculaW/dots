@@ -11,6 +11,29 @@
     <h1></h1>
     <div id="root"></div>
 
+    <script>
+      let hasUnsavedChanges = false;
+
+      // когда пользователь что-то нарисовал:
+      function markChanged() {
+        hasUnsavedChanges = true;
+      }
+
+      // когда сохранил:
+      function markSaved() {
+        hasUnsavedChanges = false;
+      }
+
+      window.addEventListener('beforeunload', function (e) {
+        if (!hasUnsavedChanges) return;
+
+        e.preventDefault();
+
+        // для современных браузеров
+        e.returnValue = '';
+      });
+    </script>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
