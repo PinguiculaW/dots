@@ -19,12 +19,6 @@ const OutputPanel: React.FC<OutputPanelProps> = ({ grid }) => {
 
     return (
         <div className="output">
-            <textarea
-                value={text}
-                readOnly
-                onClick={(e) => e.currentTarget.select()}
-                spellCheck={false}
-            />
 
             <button
                 className={`copy-btn ${copied ? "copied" : ""}`}
@@ -32,6 +26,13 @@ const OutputPanel: React.FC<OutputPanelProps> = ({ grid }) => {
             >
                 {copied ? "Скопировано!" : "Скопировать"}
             </button>
+
+            <textarea
+                value={text}
+                readOnly
+                onClick={(e) => e.currentTarget.select()}
+                spellCheck={false}
+            />
         </div>
     );
 };

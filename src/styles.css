@@ -97,11 +97,22 @@ body {
 
   resize: both;
   overflow: auto;
+  margin-bottom: 50px
+}
+
+.output {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 button.copied {
   background: green;
   color: white;
+}
+
+.copy-btn {
+  margin-bottom: 10px;
 }
 
 .modal {
