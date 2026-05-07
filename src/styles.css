@@ -291,8 +291,24 @@ button:active {
 }
 
 
-.char-counter {
-  margin-top: 6px;
+.stats-box {
+  margin-top: 40px;
+  margin-bottom: 16px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #7ce6e6;
+  border: 2px solid #9360ec;
+}
+
+.stats-title {
   font-size: 14px;
-  opacity: 0.8;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
 }
