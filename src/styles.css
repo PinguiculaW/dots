@@ -85,13 +85,18 @@ body {
 }
 
 .output textarea {
-  width: 100%;
   height: 150px;
   font-family: "Cascadia Code", monospace;
   /*font-feature-settings: "liga" 0;*/
   font-size: 28px;          /* 👈 такой же как в .cell */
   line-height: 1;           /* 🔥 убирает смещение */
-  overflow-x: auto; /* Добавляем скролл при длинных строках */
+  width: 600px;
+  min-width: 300px;
+  min-height: 200px;
+  max-width: 100%;
+
+  resize: both;
+  overflow: auto;
 }
 
 button.copied {
@@ -146,11 +151,6 @@ button.copied {
   color: white;
 }
 
-/*.cell.selected {
-  /*outline: 1px solid red;*/
-  /*box-shadow: inset 0 0 0 2px #4a90e2;
-  /*background: rgba(74, 144, 226, 0.1);*/
-/*}*/
 
 .selection-box {
   position: absolute;
