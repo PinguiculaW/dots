@@ -1,0 +1,99 @@
+/* ===== планшеты ===== */
+@media (max-width: 1200px) {
+
+    .workspace {
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 20px;
+    }
+
+    .bg-controls {
+        position: static;
+        width: 100%;
+        max-width: 600px;
+        margin-top: 20px;
+    }
+
+    .output {
+        width: 100%;
+        align-items: center;
+    }
+
+    .output textarea {
+        width: 95%;
+    }
+}
+
+
+/* ===== телефоны ===== */
+@media (max-width: 768px) {
+
+    .toolbar {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .group {
+        margin-right: 10px;
+        flex-wrap: wrap;
+    }
+
+    .workspace {
+        overflow-x: auto;
+        align-items: flex-start;
+    }
+
+    .grid {
+        transform: scale(0.8);
+        transform-origin: top left;
+    }
+
+    .cell {
+        font-size: 20px;
+        height: 20px;
+    }
+
+    .output textarea {
+        font-size: 16px;
+        min-width: unset;
+        min-height: 150px;
+    }
+
+    .bg-controls {
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .control input[type="range"] {
+        width: 100%;
+    }
+
+    .stats-box {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+
+/* ===== маленькие телефоны ===== */
+@media (max-width: 480px) {
+
+    .grid {
+        transform: scale(0.65);
+    }
+
+    .cell {
+        font-size: 16px;
+        height: 16px;
+    }
+
+    button {
+        font-size: 12px;
+        padding: 4px 6px;
+    }
+
+    .toolbar {
+        gap: 6px;
+    }
+}

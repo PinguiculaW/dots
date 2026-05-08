@@ -5,6 +5,7 @@ import OutputPanel from "./components/OutputPanel";
 import BackgroundLayer from "./components/BackgroundLayer";
 import { BRAILLE_BLANK } from "./utils/braille";
 import "./styles.css";
+import "./responsive.css";
 import type { Tool, Background, Selection } from "./types";
 
 
