@@ -1,5 +1,5 @@
 import { BRAILLE_BLANK } from "../utils/braille";
-import React, { useState, useRef, useLayoutEffect } from "react";
+import React, { useState, useRef, useLayoutEffect, useEffect } from "react";
 import type { Tool, Selection } from "../types";
 
 type Cell = string;
@@ -39,8 +39,45 @@ const GridEditor: React.FC<GridEditorProps> = ({
   setSelectedTool,
 }) => {
 
+  const getCellFromTouch = (touch: React.Touch) => {
+    const element = document.elementFromPoint(
+        touch.clientX,
+        touch.clientY
+    ) as HTMLElement | null;
+
+    if (!element) return null;
+
+    const x = element.dataset.x;
+    const y = element.dataset.y;
+
+    if (x === undefined || y === undefined) return null;
+
+    return {
+      x: Number(x),
+      y: Number(y),
+    };
+  };
+
   const gridRef = useRef<HTMLDivElement | null>(null);
   const [boxStyle, setBoxStyle] = useState<React.CSSProperties | null>(null);
+
+  useEffect(() => {
+    const el = gridRef.current;
+
+    if (!el) return;
+
+    const preventScroll = (e: TouchEvent) => {
+      e.preventDefault();
+    };
+
+    el.addEventListener("touchmove", preventScroll, {
+      passive: false,
+    });
+
+    return () => {
+      el.removeEventListener("touchmove", preventScroll);
+    };
+  }, []);
 
   useLayoutEffect(() => {
     if (!selection || !gridRef.current) {
@@ -155,6 +192,50 @@ const GridEditor: React.FC<GridEditorProps> = ({
     <div
           ref={gridRef}
           className="grid"
+
+          onTouchStart={(e) => {
+            e.preventDefault();
+
+            const touch = e.touches[0];
+            const cell = getCellFromTouch(touch);
+
+            if (!cell) return;
+
+            setIsDrawing(true);
+
+            if (selectedTool === "pencil" || selectedTool === "eraser") {
+              setTempGrid(grid);
+            }
+
+            handleAction(cell.x, cell.y);
+          }}
+
+          onTouchMove={(e) => {
+            e.preventDefault();
+
+            if (!isDrawing) return;
+
+            const touch = e.touches[0];
+            const cell = getCellFromTouch(touch);
+
+            if (!cell) return;
+
+            handleAction(cell.x, cell.y);
+          }}
+
+          onTouchEnd={() => {
+            setIsDrawing(false);
+
+            if (
+                (selectedTool === "pencil" ||
+                    selectedTool === "eraser") &&
+                tempGrid
+            ) {
+              pushHistory(tempGrid);
+              setTempGrid(null);
+            }
+          }}
+
           onMouseUp={() => {
             setIsDrawing(false);
 
