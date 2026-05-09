@@ -49,8 +49,7 @@ body {
 }
 
 .cell {
-  /*width: 20px;*/
-  height: 28px;
+  --cell-width: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,10 +60,11 @@ body {
   line-height: 1;    /* 👈 убирает смещение */
   text-align: center;
 
-  width: 1ch;
+  height: calc(var(--cell-width) * 2);
+  width: var(--cell-width);
 
   font-family: "Cascadia Code", monospace;
-  box-sizing: content-box; /* Важно для точной ширины */
+  box-sizing: border-box;
 
   position: relative;
   z-index: 1;

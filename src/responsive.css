@@ -45,13 +45,28 @@
     }
 
     .grid {
-        transform: scale(0.8);
+        /*transform: scale(0.8);*/
         transform-origin: top left;
+        margin-top: 10px;
     }
 
     .cell {
-        font-size: 20px;
-        height: 20px;
+        --cell-width: 24px;
+        font-size: 36px;
+        line-height: 1;
+
+        text-align: center;
+
+        padding: 0;
+        margin: 0;
+
+        box-sizing: border-box;
+
+        display: block;
+        overflow: hidden;
+
+        height: calc(var(--cell-width) * 2);
+        width: var(--cell-width);
     }
 
     .output textarea {
@@ -73,6 +88,10 @@
         width: 100%;
         box-sizing: border-box;
     }
+
+    .selection-box {
+        border-width: 3px;
+    }
 }
 
 
@@ -84,8 +103,10 @@
     }
 
     .cell {
-        font-size: 16px;
-        height: 16px;
+        --cell-width: 16px;
+        font-size: 30px;
+        height: calc(var(--cell-width) * 2);
+        width: var(--cell-width);
     }
 
     button {
