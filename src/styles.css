@@ -56,7 +56,7 @@ body {
   cursor: crosshair;
   border: 1px solid #ccc;
 
-  font-size: 28px;   /* 👈 ключ */
+  font-size: calc(var(--cell-width) * 2);
   line-height: 1;    /* 👈 убирает смещение */
   text-align: center;
 

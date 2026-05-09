@@ -52,7 +52,6 @@
 
     .cell {
         --cell-width: 24px;
-        font-size: 36px;
         line-height: 1;
 
         text-align: center;
@@ -61,11 +60,8 @@
         margin: 0;
 
         box-sizing: border-box;
-
-        display: block;
         overflow: hidden;
 
-        height: calc(var(--cell-width) * 2);
         width: var(--cell-width);
     }
 
@@ -103,9 +99,7 @@
     }
 
     .cell {
-        --cell-width: 16px;
-        font-size: 30px;
-        height: calc(var(--cell-width) * 2);
+        --cell-width: 18px;
         width: var(--cell-width);
     }
 
