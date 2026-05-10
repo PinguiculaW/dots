@@ -5,6 +5,7 @@ import OutputPanel from "./components/OutputPanel";
 import BackgroundLayer from "./components/BackgroundLayer";
 import { BRAILLE_BLANK } from "./utils/braille";
 import "./styles.css";
+import "./responsive.css";
 import type { Tool, Background, Selection } from "./types";
 
 
@@ -28,6 +29,8 @@ export default function AppInner(): React.ReactElement {
   const [grid, setGrid] = useState<Grid>(createGrid(width, height));
   const [history, setHistory] = useState<Grid[]>([]);
   const [redoStack, setRedoStack] = useState<Grid[]>([]);
+
+  const [tooltipsEnabled, setTooltipsEnabled] = useState(true);
 
   const [selectedTool, setSelectedTool] = useState<Tool>("select");
   const [selectedSymbol, setSelectedSymbol] =
@@ -207,6 +210,30 @@ export default function AppInner(): React.ReactElement {
     setClipboard(data);
   };
 
+  const cutSelection = (): void => {
+    if (!selection) return;
+
+    const data: string[][] = [];
+    const newGrid = grid.map((row) => [...row]);
+
+    for (let y = selection.y1; y <= selection.y2; y++) {
+      const row: string[] = [];
+
+      for (let x = selection.x1; x <= selection.x2; x++) {
+        row.push(grid[y][x]);
+
+        // удаляем символ после копирования
+        newGrid[y][x] = BRAILLE_BLANK;
+      }
+
+      data.push(row);
+    }
+
+    setClipboard(data);
+    pushHistory(newGrid);
+    setSelection(null);
+  };
+
   const pasteSelection = (x: number, y: number): void => {
     if (!clipboard) return;
 
@@ -239,6 +266,9 @@ export default function AppInner(): React.ReactElement {
         width={width}
         height={height}
         setSelection={setSelection}
+        tooltipsEnabled={tooltipsEnabled}
+        setTooltipsEnabled={setTooltipsEnabled}
+        cutSelection={cutSelection}
       />
 
       <div className="workspace">
@@ -269,7 +299,8 @@ export default function AppInner(): React.ReactElement {
         <div className="bg-controls">
           <h3>Параметры фоновой картинки</h3>
 
-          <input type="file" onChange={handleBackgroundUpload} />
+          <input type="file" onChange={handleBackgroundUpload}
+                 style={{marginBottom: 20}}/>
 
           <div className="control">
             <label>Прозрачность</label>
@@ -364,6 +395,22 @@ export default function AppInner(): React.ReactElement {
               <strong>{charCount}</strong>
             </div>
           </div>
+
+          <div className="settings-box">
+            <div className="settings-title">Настройки</div>
+
+            <label className="setting-row">
+              <input
+                  type="checkbox"
+                  checked={tooltipsEnabled}
+                  onChange={(e) =>
+                      setTooltipsEnabled(e.target.checked)
+                  }
+              />
+              Подсказки
+            </label>
+          </div>
+
         </div>
       </div>
 

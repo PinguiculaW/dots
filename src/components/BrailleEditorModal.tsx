@@ -17,22 +17,50 @@ export default function BrailleEditorModal({
     brailleToDots(initial) as BrailleDots
   );
 
-  const toggleDot = (i: number) => {
+  const [isMouseDown, setIsMouseDown] = useState(false);
+  const [dragValue, setDragValue] = useState<boolean | null>(null);
+
+  const setDotValue = (i: number, value: boolean) => {
     const newDots = [...dots] as BrailleDots;
-    newDots[i] = !newDots[i];
+    newDots[i] = value;
     setDots(newDots);
   };
 
   const renderDot = (i: number) => (
-    <div
-      key={i}
-      className={`dot ${dots[i] ? "active" : ""}`}
-      onClick={() => toggleDot(i)}
-    />
+      <div
+          key={i}
+          className={`dot ${dots[i] ? "active" : ""}`}
+
+          onMouseDown={() => {
+            const nextValue = !dots[i];
+
+            setIsMouseDown(true);
+            setDragValue(nextValue);
+
+            setDotValue(i, nextValue);
+          }}
+
+          onMouseEnter={() => {
+            if (!isMouseDown || dragValue === null) return;
+
+            setDotValue(i, dragValue);
+          }}
+
+          onMouseUp={() => {
+            setIsMouseDown(false);
+            setDragValue(null);
+          }}
+      />
   );
 
   return (
-    <div className="modal">
+      <div
+          className="modal"
+          onMouseUp={() => {
+            setIsMouseDown(false);
+            setDragValue(null);
+          }}
+      >
       <div className="modal-content">
         <div className="braille-grid">
           {[
