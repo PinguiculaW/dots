@@ -38,8 +38,9 @@ const Toolbar: React.FC<ToolbarProps> = ({
                                            setSelection,
                                          }) => {
   const [showModal, setShowModal] = useState(false);
-  const toolButton = (tool: Tool, icon: string) => (
+  const toolButton = (tool: Tool, icon: string, tooltip: string) => (
     <Button
+      title={tooltip}
       variant='outlined'
       onClick={() => {
         setSelectedTool(tool);
@@ -54,10 +55,10 @@ const Toolbar: React.FC<ToolbarProps> = ({
   return (
     <div className="toolbar">
       <div className="group">
-        {toolButton("pencil", "✏️")}
-        {toolButton("eraser", "🧽")}
-        {toolButton("picker", "🎯")}
-        {toolButton("fill", "🪣")}
+        {toolButton("pencil", "✏️", "Карандаш")}
+        {toolButton("eraser", "🧽", "Ластик")}
+        {toolButton("picker", "🎯", "Пипетка")}
+        {toolButton("fill", "🪣", "Заливка")}
       </div>
 
       <div className="group">
@@ -68,19 +69,19 @@ const Toolbar: React.FC<ToolbarProps> = ({
             maxLength={1}
             style={{width: 20}}
         />
-        <button onClick={() => setShowModal(true)}>⚙️</button>
+        <button title="Настройка символа" onClick={() => setShowModal(true)}>⚙️</button>
       </div>
 
 
       <div className="group">
-        {toolButton("select", "▢")}
-        <button onClick={copySelection}>📋</button>
-        {toolButton("paste", "📥")}
+        {toolButton("select", "▢", "Выделение")}
+        <button title="Копировать выделенное" onClick={copySelection}>📋</button>
+        {toolButton("paste", "📥", "Вставка")}
       </div>
 
       <div className="group">
-        <Button sx={{p:0}} variant='outlined'  onClick={undo}>↩</Button>
-        <Button sx={{p:0}} variant='outlined'  onClick={redo}>↪</Button>
+        <Button title="Отменить" sx={{p:0}} variant='outlined'  onClick={undo}>↩</Button>
+        <Button title="Повторить" sx={{p:0}} variant='outlined'  onClick={redo}>↪</Button>
       </div>
 
       {showModal && (
