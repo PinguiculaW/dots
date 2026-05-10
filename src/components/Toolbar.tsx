@@ -179,6 +179,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
         {toolButton("paste", "📥", "Вставка")}
       </div>
 
+        <Tooltip title={tt("Информация")} {...tooltipProps} arrow>
         <Button
             variant="outlined"
             onClick={() => setShowHelp(true)}
@@ -191,6 +192,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
         >
             ℹ️
         </Button>
+        </Tooltip>
 
         {showHelp && (
             <div className="modal">
