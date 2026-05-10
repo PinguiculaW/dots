@@ -46,6 +46,26 @@ const Toolbar: React.FC<ToolbarProps> = ({
     const tt = (text: string) =>
         tooltipsEnabled ? text : "";
 
+    const tooltipProps = {
+        arrow: true,
+        slotProps: {
+            tooltip: {
+                sx: {
+                    backgroundColor: "#3c7ccf",
+                    color: "#fff",
+                    fontSize: 13,
+                    borderRadius: "8px",
+                    border: "1px solid #444",
+                },
+            },
+            arrow: {
+                sx: {
+                    color: "#2e479e",
+                },
+            },
+        },
+    };
+
   const [showModal, setShowModal] = useState(false);
   const toolButton = (tool: Tool, icon: string, tooltip: string) => (
       <Tooltip
@@ -97,7 +117,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
             maxLength={1}
             style={{width: 20}}
         />
-          <Tooltip title={tt("Настройка символа")} arrow>
+          <Tooltip title={tt("Настройка символа")} {...tooltipProps} arrow>
         <button onClick={() => setShowModal(true)}>⚙️</button>
           </Tooltip>
       </div>
@@ -105,17 +125,17 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
       <div className="group">
         {toolButton("select", "▢", "Выделение")}
-        <Tooltip title={tt("Копировать выделенное")} arrow>
+        <Tooltip title={tt("Копировать выделенное")} {...tooltipProps} arrow>
         <button onClick={copySelection}>📋</button>
         </Tooltip>
         {toolButton("paste", "📥", "Вставка")}
       </div>
 
       <div className="group">
-          <Tooltip title={tt("Отменить")} arrow>
+          <Tooltip title={tt("Отменить")} {...tooltipProps} arrow>
         <Button sx={{p:0}} variant='outlined'  onClick={undo}>↩</Button>
           </Tooltip>
-          <Tooltip title={tt("Повторить")} arrow>
+          <Tooltip title={tt("Повторить")} {...tooltipProps} arrow>
         <Button sx={{p:0}} variant='outlined'  onClick={redo}>↪</Button>
           </Tooltip>
       </div>
