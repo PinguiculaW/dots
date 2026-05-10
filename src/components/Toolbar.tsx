@@ -4,6 +4,7 @@ import BrailleEditorModal from "./BrailleEditorModal";
 import {useState} from "react";
 import type {Tool, Selection} from "../types";
 import Button from '@mui/material/Button';
+import Tooltip from "@mui/material/Tooltip";
 
 
 interface ToolbarProps {
@@ -23,24 +24,24 @@ interface ToolbarProps {
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({
-                                           selectedTool,
-                                           setSelectedTool,
-                                           brushSize,
-                                           setBrushSize,
-                                           selectedSymbol,
-                                           setSelectedSymbol,
-                                           undo,
-                                           redo,
-                                           resizeGrid,
-                                           copySelection,
-                                           width,
-                                           height,
-                                           setSelection,
-                                         }) => {
+    selectedTool,
+    setSelectedTool,
+    brushSize,
+    setBrushSize,
+    selectedSymbol,
+    setSelectedSymbol,
+    undo,
+    redo,
+    resizeGrid,
+    copySelection,
+    width,
+    height,
+    setSelection,
+    }) => {
   const [showModal, setShowModal] = useState(false);
   const toolButton = (tool: Tool, icon: string, tooltip: string) => (
-    <Button
-      title={tooltip}
+      <Tooltip title={tooltip} arrow>
+      <Button
       variant='outlined'
       onClick={() => {
         setSelectedTool(tool);
@@ -50,6 +51,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
     >
       {icon}
     </Button>
+    </Tooltip>
   );
 
   return (
@@ -69,19 +71,27 @@ const Toolbar: React.FC<ToolbarProps> = ({
             maxLength={1}
             style={{width: 20}}
         />
-        <button title="Настройка символа" onClick={() => setShowModal(true)}>⚙️</button>
+          <Tooltip title="Настройка символа" arrow>
+        <button onClick={() => setShowModal(true)}>⚙️</button>
+          </Tooltip>
       </div>
 
 
       <div className="group">
         {toolButton("select", "▢", "Выделение")}
-        <button title="Копировать выделенное" onClick={copySelection}>📋</button>
+        <Tooltip title="Копировать выделенное" arrow>
+        <button onClick={copySelection}>📋</button>
+        </Tooltip>
         {toolButton("paste", "📥", "Вставка")}
       </div>
 
       <div className="group">
-        <Button title="Отменить" sx={{p:0}} variant='outlined'  onClick={undo}>↩</Button>
-        <Button title="Повторить" sx={{p:0}} variant='outlined'  onClick={redo}>↪</Button>
+          <Tooltip title="Отменить" arrow>
+        <Button sx={{p:0}} variant='outlined'  onClick={undo}>↩</Button>
+          </Tooltip>
+          <Tooltip title="Повторить" arrow>
+        <Button sx={{p:0}} variant='outlined'  onClick={redo}>↪</Button>
+          </Tooltip>
       </div>
 
       {showModal && (
