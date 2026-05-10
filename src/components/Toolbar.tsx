@@ -21,6 +21,8 @@ interface ToolbarProps {
   width: number;
   height: number;
   setSelection: (selection: Selection) => void;
+  tooltipsEnabled: boolean;
+  setTooltipsEnabled: (value: boolean) => void;
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({
@@ -37,11 +39,17 @@ const Toolbar: React.FC<ToolbarProps> = ({
     width,
     height,
     setSelection,
+    tooltipsEnabled,
+    setTooltipsEnabled,
     }) => {
+
+    const tt = (text: string) =>
+        tooltipsEnabled ? text : "";
+
   const [showModal, setShowModal] = useState(false);
   const toolButton = (tool: Tool, icon: string, tooltip: string) => (
       <Tooltip
-        title={tooltip}
+        title={tooltipsEnabled ? tooltip : ""}
         arrow
         slotProps={{
             tooltip: {
@@ -89,7 +97,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
             maxLength={1}
             style={{width: 20}}
         />
-          <Tooltip title="Настройка символа" arrow>
+          <Tooltip title={tt("Настройка символа")} arrow>
         <button onClick={() => setShowModal(true)}>⚙️</button>
           </Tooltip>
       </div>
@@ -97,17 +105,17 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
       <div className="group">
         {toolButton("select", "▢", "Выделение")}
-        <Tooltip title="Копировать выделенное" arrow>
+        <Tooltip title={tt("Копировать выделенное")} arrow>
         <button onClick={copySelection}>📋</button>
         </Tooltip>
         {toolButton("paste", "📥", "Вставка")}
       </div>
 
       <div className="group">
-          <Tooltip title="Отменить" arrow>
+          <Tooltip title={tt("Отменить")} arrow>
         <Button sx={{p:0}} variant='outlined'  onClick={undo}>↩</Button>
           </Tooltip>
-          <Tooltip title="Повторить" arrow>
+          <Tooltip title={tt("Повторить")} arrow>
         <Button sx={{p:0}} variant='outlined'  onClick={redo}>↪</Button>
           </Tooltip>
       </div>
@@ -157,6 +165,28 @@ const Toolbar: React.FC<ToolbarProps> = ({
           <input type="number" value={height} readOnly/>
           <button onClick={() => resizeGrid(width, height - 1)}>-</button>
         </div>
+      </div>
+
+      <div className="group">
+        <label
+            style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                fontSize: 13,
+                userSelect: "none",
+                cursor: "pointer",
+            }}
+        >
+            <input
+                type="checkbox"
+                checked={tooltipsEnabled}
+                onChange={(e) =>
+                    setTooltipsEnabled(e.target.checked)
+                }
+            />
+                Подсказки
+        </label>
       </div>
     </div>
   );

@@ -30,6 +30,8 @@ export default function AppInner(): React.ReactElement {
   const [history, setHistory] = useState<Grid[]>([]);
   const [redoStack, setRedoStack] = useState<Grid[]>([]);
 
+  const [tooltipsEnabled, setTooltipsEnabled] = useState(true);
+
   const [selectedTool, setSelectedTool] = useState<Tool>("select");
   const [selectedSymbol, setSelectedSymbol] =
     useState<string>(BRAILLE_BLANK);
@@ -240,6 +242,8 @@ export default function AppInner(): React.ReactElement {
         width={width}
         height={height}
         setSelection={setSelection}
+        tooltipsEnabled={tooltipsEnabled}
+        setTooltipsEnabled={setTooltipsEnabled}
       />
 
       <div className="workspace">
