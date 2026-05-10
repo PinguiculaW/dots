@@ -67,6 +67,52 @@ const Toolbar: React.FC<ToolbarProps> = ({
     };
 
   const [showModal, setShowModal] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
+
+    const toolDescriptions = [
+        {
+            icon: "✏️",
+            title: "Карандаш",
+            description:
+                "Рисование выбранным символом по сетке.",
+        },
+
+        {
+            icon: "🧽",
+            title: "Ластик",
+            description:
+                "Удаление символов с сетки.",
+        },
+
+        {
+            icon: "🎯",
+            title: "Пипетка",
+            description:
+                "Выбор символа с холста.",
+        },
+
+        {
+            icon: "🪣",
+            title: "Заливка",
+            description:
+                "Заливка области одинаковых символов.",
+        },
+
+        {
+            icon: "▢",
+            title: "Выделение",
+            description:
+                "Выделение области для копирования.",
+        },
+
+        {
+            icon: "📥",
+            title: "Вставка",
+            description:
+                "Вставка скопированного блока.",
+        },
+    ];
+
   const toolButton = (tool: Tool, icon: string, tooltip: string) => (
       <Tooltip
         title={tooltipsEnabled ? tooltip : ""}
@@ -109,6 +155,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
         {toolButton("fill", "🪣", "Заливка")}
       </div>
 
+
+
       <div className="group">
         <input
             type="text"
@@ -130,6 +178,60 @@ const Toolbar: React.FC<ToolbarProps> = ({
         </Tooltip>
         {toolButton("paste", "📥", "Вставка")}
       </div>
+
+        <Button
+            variant="outlined"
+            onClick={() => setShowHelp(true)}
+            sx={{
+                minWidth: 36,
+                width: 36,
+                height: 36,
+                padding: 0,
+            }}
+        >
+            ℹ️
+        </Button>
+
+        {showHelp && (
+            <div className="modal">
+                <div
+                    className="modal-content"
+                    style={{
+                        maxWidth: 500,
+                    }}
+                >
+                    <h2 style={{ marginTop: 0 }}>
+                        Инструменты редактора
+                    </h2>
+
+                    {toolDescriptions.map((tool) => (
+                        <div
+                            key={tool.title}
+                            style={{
+                                marginBottom: 16,
+                            }}
+                        >
+                            <strong>
+                                {tool.icon} — {tool.title}
+                            </strong>
+
+                            <div
+                                style={{
+                                    marginTop: 4,
+                                    opacity: 0.8,
+                                }}
+                            >
+                                {tool.description}
+                            </div>
+                        </div>
+                    ))}
+
+                    <button onClick={() => setShowHelp(false)}>
+                        Закрыть
+                    </button>
+                </div>
+            </div>
+        )}
 
       <div className="group">
           <Tooltip title={tt("Отменить")} {...tooltipProps} arrow>
@@ -186,6 +288,9 @@ const Toolbar: React.FC<ToolbarProps> = ({
           <button onClick={() => resizeGrid(width, height - 1)}>-</button>
         </div>
       </div>
+
+
+
     </div>
   );
 };
