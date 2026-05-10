@@ -370,6 +370,22 @@ export default function AppInner(): React.ReactElement {
               <strong>{charCount}</strong>
             </div>
           </div>
+
+          <div className="settings-box">
+            <div className="settings-title">Настройки</div>
+
+            <label className="setting-row">
+              <input
+                  type="checkbox"
+                  checked={tooltipsEnabled}
+                  onChange={(e) =>
+                      setTooltipsEnabled(e.target.checked)
+                  }
+              />
+              Подсказки
+            </label>
+          </div>
+
         </div>
       </div>
 

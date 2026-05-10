@@ -186,29 +186,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
           <button onClick={() => resizeGrid(width, height - 1)}>-</button>
         </div>
       </div>
-
-      <div className="group">
-        <label
-            style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                fontSize: 13,
-                userSelect: "none",
-                cursor: "pointer",
-            }}
-        >
-            <input
-                type="checkbox"
-                checked={tooltipsEnabled}
-                onChange={(e) =>
-                    setTooltipsEnabled(e.target.checked)
-                }
-                style={{marginRight: -3}}
-            />
-                Подсказки
-        </label>
-      </div>
     </div>
   );
 };

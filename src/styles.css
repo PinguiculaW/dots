@@ -325,3 +325,24 @@ button:active {
   align-items: center;
   font-size: 14px;
 }
+
+.settings-box {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #7ce6e6;
+  border: 2px solid #9360ec;
+}
+
+.settings-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
