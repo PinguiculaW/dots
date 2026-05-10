@@ -270,7 +270,8 @@ export default function AppInner(): React.ReactElement {
         <div className="bg-controls">
           <h3>Параметры фоновой картинки</h3>
 
-          <input type="file" onChange={handleBackgroundUpload} />
+          <input type="file" onChange={handleBackgroundUpload}
+                 style={{marginBottom: 20}}/>
 
           <div className="control">
             <label>Прозрачность</label>

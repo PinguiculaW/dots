@@ -1,13 +1,5 @@
 import React, { useState } from "react";
 import type { Background } from "../types";
-/*interface Background {
-  image: string | null;
-  x: number;
-  y: number;
-  scale: number;
-  opacity: number;
-  draggable: boolean;
-}*/
 
 interface BackgroundLayerProps {
   background: Background;
