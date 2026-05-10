@@ -226,7 +226,8 @@ button.copied {
 .group {
   display: flex;
   gap: 2px;
-  margin-right: 20px; /* ← ВОТ ЭТО даёт отступ между блоками */
+  margin-right: 10px; /* ← ВОТ ЭТО даёт отступ между блоками */
+  margin-left: 10px;;
 }
 
 /* обычное состояние */
