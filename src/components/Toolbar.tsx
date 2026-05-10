@@ -40,7 +40,25 @@ const Toolbar: React.FC<ToolbarProps> = ({
     }) => {
   const [showModal, setShowModal] = useState(false);
   const toolButton = (tool: Tool, icon: string, tooltip: string) => (
-      <Tooltip title={tooltip} arrow>
+      <Tooltip
+        title={tooltip}
+        arrow
+        slotProps={{
+            tooltip: {
+                sx: {
+                    backgroundColor: "#3c7dd1",
+                    color: "#ffffff",
+                    fontSize: 13,
+                    border: "1px solid #444",
+                },
+            },
+            arrow: {
+                sx: {
+                    color: "#2e489f",
+                },
+            },
+        }}
+      >
       <Button
       variant='outlined'
       onClick={() => {
