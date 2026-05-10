@@ -204,6 +204,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
                 onChange={(e) =>
                     setTooltipsEnabled(e.target.checked)
                 }
+                style={{marginRight: -3}}
             />
                 Подсказки
         </label>
