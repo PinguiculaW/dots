@@ -61,6 +61,18 @@ const Toolbar: React.FC<ToolbarProps> = ({
       </div>
 
       <div className="group">
+        <input
+            type="text"
+            value={selectedSymbol}
+            onChange={(e) => setSelectedSymbol(e.target.value)}
+            maxLength={1}
+            style={{width: 20}}
+        />
+        <button onClick={() => setShowModal(true)}>⚙️</button>
+      </div>
+
+
+      <div className="group">
         {toolButton("select", "▢")}
         <button onClick={copySelection}>📋</button>
         {toolButton("paste", "📥")}
@@ -101,14 +113,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
         <Button sx={{p:0}} variant='outlined' onClick={() => resizeGrid(40, 20)}>40×20</Button>
       </div>
       {/* Используем setSelectedSymbol */}
-      <input
-        type="text"
-        value={selectedSymbol}
-        onChange={(e) => setSelectedSymbol(e.target.value)}
-        maxLength={1}
-        style={{width: 30, marginLeft: 10}}
-      />
-      <button onClick={() => setShowModal(true)}>⚙️</button>
+
       <div className="grid-size-controls">
         <div className="control">
           <label>Столбцы</label>
