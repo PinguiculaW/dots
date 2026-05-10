@@ -173,7 +173,7 @@ const GridEditor: React.FC<GridEditorProps> = ({
     }
 
     // ▢ Selection
-    if (selectedTool === "select") {
+    /*if (selectedTool === "select") {
       if (!selectionStart) {
         setSelectionStart({ x, y });
       } else {
@@ -185,7 +185,7 @@ const GridEditor: React.FC<GridEditorProps> = ({
         });
         setSelectionStart(null);
       }
-    }
+    }*/
   };
 
   return (
@@ -239,11 +239,16 @@ const GridEditor: React.FC<GridEditorProps> = ({
           onMouseUp={() => {
             setIsDrawing(false);
 
+            if (selectedTool === "select") {
+              setSelectionStart(null);
+            }
+
             if ((selectedTool === "pencil" || selectedTool === "eraser") && tempGrid) {
               pushHistory(tempGrid);
               setTempGrid(null);
             }
           }}
+
           onMouseLeave={() => {
             setIsDrawing(false);
 
@@ -285,11 +290,36 @@ const GridEditor: React.FC<GridEditorProps> = ({
                     setTempGrid(grid);
                   }
 
+                  if (selectedTool === "select") {
+                    setSelectionStart({ x, y });
+
+                    setSelection({
+                      x1: x,
+                      y1: y,
+                      x2: x,
+                      y2: y,
+                    });
+
+                    return;
+                  }
+
                   handleAction(x, y);
                 }}
                 onMouseEnter={() => {
                   setHoverCell({ x, y });
-                  if (isDrawing) handleAction(x, y);
+
+                  if (!isDrawing) return;
+
+                  if (selectedTool === "select" && selectionStart) {
+                    setSelection({
+                      x1: Math.min(selectionStart.x, x),
+                      y1: Math.min(selectionStart.y, y),
+                      x2: Math.max(selectionStart.x, x),
+                      y2: Math.max(selectionStart.y, y),
+                    });
+                    return;
+                  }
+                  handleAction(x, y);
                 }}
               >
                 {cell}
