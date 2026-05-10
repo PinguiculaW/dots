@@ -21,4 +21,5 @@ export type Tool =
   | "fill"
   | "select"
   | "pencil"
-  | "picker";
+  | "picker"
+    | "cut";

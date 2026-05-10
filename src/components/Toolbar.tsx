@@ -18,6 +18,7 @@ interface ToolbarProps {
   redo: () => void;
   resizeGrid: (width: number, height: number) => void;
   copySelection: () => void;
+    cutSelection: () => void;
   width: number;
   height: number;
   setSelection: (selection: Selection) => void;
@@ -36,11 +37,11 @@ const Toolbar: React.FC<ToolbarProps> = ({
     redo,
     resizeGrid,
     copySelection,
+        cutSelection,
     width,
     height,
     setSelection,
     tooltipsEnabled,
-    setTooltipsEnabled,
     }) => {
 
     const tt = (text: string) =>
@@ -190,6 +191,9 @@ const Toolbar: React.FC<ToolbarProps> = ({
         <Tooltip title={tt("Копировать выделенное")} {...tooltipProps} arrow>
         <button onClick={copySelection}>📋</button>
         </Tooltip>
+          <Tooltip title={tt("Вырезать выделенное")} {...tooltipProps} arrow>
+              <button onClick={cutSelection}>✂️</button>
+          </Tooltip>
         {toolButton("paste", "📥", "Вставка")}
       </div>
 
@@ -202,6 +206,12 @@ const Toolbar: React.FC<ToolbarProps> = ({
                 width: 36,
                 height: 36,
                 padding: 0,
+
+                borderWidth: 3,
+
+                "&:hover": {
+                    borderWidth: 3,
+                },
             }}
         >
             ℹ️

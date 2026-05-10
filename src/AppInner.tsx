@@ -210,6 +210,30 @@ export default function AppInner(): React.ReactElement {
     setClipboard(data);
   };
 
+  const cutSelection = (): void => {
+    if (!selection) return;
+
+    const data: string[][] = [];
+    const newGrid = grid.map((row) => [...row]);
+
+    for (let y = selection.y1; y <= selection.y2; y++) {
+      const row: string[] = [];
+
+      for (let x = selection.x1; x <= selection.x2; x++) {
+        row.push(grid[y][x]);
+
+        // удаляем символ после копирования
+        newGrid[y][x] = BRAILLE_BLANK;
+      }
+
+      data.push(row);
+    }
+
+    setClipboard(data);
+    pushHistory(newGrid);
+    setSelection(null);
+  };
+
   const pasteSelection = (x: number, y: number): void => {
     if (!clipboard) return;
 
@@ -244,6 +268,7 @@ export default function AppInner(): React.ReactElement {
         setSelection={setSelection}
         tooltipsEnabled={tooltipsEnabled}
         setTooltipsEnabled={setTooltipsEnabled}
+        cutSelection={cutSelection}
       />
 
       <div className="workspace">
