@@ -397,6 +397,10 @@ export default function AppInner(): React.ReactElement {
               Подсказки
             </label>
 
+            <div className="settings-subtitle">
+              Обрезка пустых символов
+            </div>
+
             <label className="setting-row">
               <input
                   type="checkbox"
