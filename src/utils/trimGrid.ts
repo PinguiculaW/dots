@@ -3,6 +3,7 @@ const BRAILLE_BLANK = "⠀";
 type Grid = string[][];
 
 type TrimOptions = {
+    trimTop: boolean;
     trimBottom: boolean;
     trimRight: boolean;
     trimLeft: boolean;
@@ -13,12 +14,27 @@ export function trimGrid(
     options: TrimOptions
 ): Grid {
     const {
+        trimTop,
         trimBottom,
         trimRight,
         trimLeft,
     } = options;
 
     let processedGrid = grid.map(row => [...row]);
+
+    // =====================
+    // trim top
+    // =====================
+    if (trimTop) {
+        while (
+            processedGrid.length > 0 &&
+            processedGrid[0].every(
+                cell => cell === BRAILLE_BLANK
+            )
+            ) {
+            processedGrid.shift();
+        }
+    }
 
     // =====================
     // trim bottom

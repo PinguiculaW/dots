@@ -3,6 +3,7 @@ import { trimGrid } from "../utils/trimGrid";
 
 type OutputPanelProps = {
     grid: string[][];
+    trimTop: boolean;
     trimBottom: boolean;
     trimRight: boolean;
     trimLeft: boolean;
@@ -10,6 +11,7 @@ type OutputPanelProps = {
 
 const OutputPanel: React.FC<OutputPanelProps> = ({
     grid,
+    trimTop,
     trimBottom,
     trimRight,
     trimLeft,
@@ -17,6 +19,7 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
     const [copied, setCopied] = useState<boolean>(false);
 
     const processedGrid = trimGrid(grid, {
+        trimTop,
         trimBottom,
         trimRight,
         trimLeft,

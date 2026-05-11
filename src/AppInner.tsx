@@ -33,6 +33,7 @@ export default function AppInner(): React.ReactElement {
 
   const [tooltipsEnabled, setTooltipsEnabled] = useState(true);
 
+  const [trimTop, setTrimTop] = useState<boolean>(true);
   const [trimBottom, setTrimBottom] = useState<boolean>(true);
   const [trimRight, setTrimRight] = useState<boolean>(true);
   const [trimLeft, setTrimLeft] = useState<boolean>(true);
@@ -78,6 +79,7 @@ export default function AppInner(): React.ReactElement {
   const [clipboard, setClipboard] = useState<ClipboardData>(null);
 
   const processedGrid = trimGrid(grid, {
+    trimTop,
     trimBottom,
     trimRight,
     trimLeft,
@@ -398,6 +400,17 @@ export default function AppInner(): React.ReactElement {
             <label className="setting-row">
               <input
                   type="checkbox"
+                  checked={trimTop}
+                  onChange={(e) =>
+                      setTrimTop(e.target.checked)
+                  }
+              />
+              Обрезать пустые строки сверху
+            </label>
+
+            <label className="setting-row">
+              <input
+                  type="checkbox"
                   checked={trimBottom}
                   onChange={(e) =>
                       setTrimBottom(e.target.checked)
@@ -435,6 +448,7 @@ export default function AppInner(): React.ReactElement {
 
       <OutputPanel
           grid={grid}
+          trimTop={trimTop}
           trimBottom={trimBottom}
           trimRight={trimRight}
           trimLeft={trimLeft}
