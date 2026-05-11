@@ -115,9 +115,16 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
         {
             icon: "📋",
-            title: "Копирование",
+            title: "Копировать",
             description:
                 "Копирует выделенную область.",
+        },
+
+        {
+            icon: "✂️",
+            title: "Вырезать",
+            description:
+                "Вырезает выделенную область.",
         },
 
         {

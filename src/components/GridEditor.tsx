@@ -171,21 +171,6 @@ const GridEditor: React.FC<GridEditorProps> = ({
     if (selectedTool === "fill") {
       floodFill(x, y);
     }
-
-    // ▢ Selection
-    /*if (selectedTool === "select") {
-      if (!selectionStart) {
-        setSelectionStart({ x, y });
-      } else {
-        setSelection({
-          x1: Math.min(selectionStart.x, x),
-          y1: Math.min(selectionStart.y, y),
-          x2: Math.max(selectionStart.x, x),
-          y2: Math.max(selectionStart.y, y),
-        });
-        setSelectionStart(null);
-      }
-    }*/
   };
 
   return (
