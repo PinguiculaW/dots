@@ -32,6 +32,10 @@ export default function AppInner(): React.ReactElement {
 
   const [tooltipsEnabled, setTooltipsEnabled] = useState(true);
 
+  const [trimBottom, setTrimBottom] = useState<boolean>(true);
+  const [trimRight, setTrimRight] = useState<boolean>(true);
+  const [trimLeft, setTrimLeft] = useState<boolean>(true);
+
   const [selectedTool, setSelectedTool] = useState<Tool>("select");
   const [selectedSymbol, setSelectedSymbol] =
     useState<string>(BRAILLE_BLANK);
@@ -409,12 +413,51 @@ export default function AppInner(): React.ReactElement {
               />
               Подсказки
             </label>
+
+            <label className="setting-row">
+              <input
+                  type="checkbox"
+                  checked={trimBottom}
+                  onChange={(e) =>
+                      setTrimBottom(e.target.checked)
+                  }
+              />
+              Обрезать пустые строки снизу
+            </label>
+
+            <label className="setting-row">
+              <input
+                  type="checkbox"
+                  checked={trimRight}
+                  onChange={(e) =>
+                      setTrimRight(e.target.checked)
+                  }
+              />
+              Обрезать пустые символы справа
+            </label>
+
+            <label className="setting-row">
+              <input
+                  type="checkbox"
+                  checked={trimLeft}
+                  onChange={(e) =>
+                      setTrimLeft(e.target.checked)
+                  }
+              />
+              Обрезать пустые символы слева
+            </label>
+
           </div>
 
         </div>
       </div>
 
-      <OutputPanel grid={grid} />
+      <OutputPanel
+          grid={grid}
+          trimBottom={trimBottom}
+          trimRight={trimRight}
+          trimLeft={trimLeft}
+      />
     </div>
   );
 }
