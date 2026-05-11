@@ -7,6 +7,7 @@ import { BRAILLE_BLANK } from "./utils/braille";
 import "./styles.css";
 import "./responsive.css";
 import type { Tool, Background, Selection } from "./types";
+import { trimGrid } from "./utils/trimGrid";
 
 
 // ====== TYPES ======
@@ -76,36 +77,16 @@ export default function AppInner(): React.ReactElement {
   const [selection, setSelection] = useState<Selection>(null);
   const [clipboard, setClipboard] = useState<ClipboardData>(null);
 
-  const charCount = (() => {
-    const trimmedRows = grid
-        .slice(0)
-        .reverse()
-        .reduce<string[][]>((acc, row) => {
-          if (
-              acc.length > 0 ||
-              row.some(cell => cell !== BRAILLE_BLANK)
-          ) {
-            acc.push(row);
-          }
-          return acc;
-        }, [])
-        .reverse();
+  const processedGrid = trimGrid(grid, {
+    trimBottom,
+    trimRight,
+    trimLeft,
+  });
 
-    return trimmedRows.reduce((total, row) => {
-      let lastNonEmpty = -1;
-
-      for (let i = row.length - 1; i >= 0; i--) {
-        if (row[i] !== BRAILLE_BLANK) {
-          lastNonEmpty = i;
-          break;
-        }
-      }
-
-      if (lastNonEmpty === -1) return total;
-
-      return total + lastNonEmpty + 1;
-    }, 0);
-  })();
+  const charCount = processedGrid
+      .map(row => row.join(""))
+      .join("\n")
+      .length;
 
   const pushHistory = (newGrid: Grid): void => {
     setHistory((prev) => [...prev.slice(-50), grid]);
