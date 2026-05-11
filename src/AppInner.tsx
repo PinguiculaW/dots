@@ -85,10 +85,11 @@ export default function AppInner(): React.ReactElement {
     trimLeft,
   });
 
-  const charCount = processedGrid.reduce(
-      (total, row) => total + row.length,
-      0
-  );
+  const textForCount = processedGrid
+      .map(row => row.join(""))
+      .join("\n");
+
+  const charCount = textForCount.length;
 
   const pushHistory = (newGrid: Grid): void => {
     setHistory((prev) => [...prev.slice(-50), grid]);
