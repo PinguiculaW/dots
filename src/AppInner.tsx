@@ -23,7 +23,13 @@ const createGrid = (w: number, h: number): Grid =>
     Array.from({ length: w }, () => BRAILLE_BLANK)
   );
 
-export default function AppInner(): React.ReactElement {
+type Props = {
+  onOpenFeedback: () => void;
+};
+
+export default function AppInner({
+                                   onOpenFeedback,
+                                 }: Props): React.ReactElement {
   const [width, setWidth] = useState<number>(40);
   const [height, setHeight] = useState<number>(20);
 
@@ -458,6 +464,13 @@ export default function AppInner(): React.ReactElement {
           trimRight={trimRight}
           trimLeft={trimLeft}
       />
+
+      <div style={{ marginBottom: 20, marginLeft: 20, textAlign: "left" }}>
+        <button onClick={onOpenFeedback}>
+          Обратная связь
+        </button>
+      </div>
+
     </div>
   );
 }
