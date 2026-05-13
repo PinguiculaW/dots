@@ -1,13 +1,31 @@
 import React, { useState } from "react";
+import { trimGrid } from "../utils/trimGrid";
 
 type OutputPanelProps = {
     grid: string[][];
+    trimTop: boolean;
+    trimBottom: boolean;
+    trimRight: boolean;
+    trimLeft: boolean;
 };
 
-const OutputPanel: React.FC<OutputPanelProps> = ({ grid }) => {
+const OutputPanel: React.FC<OutputPanelProps> = ({
+    grid,
+    trimTop,
+    trimBottom,
+    trimRight,
+    trimLeft,
+    }) => {
     const [copied, setCopied] = useState<boolean>(false);
 
-    const text: string = grid
+    const processedGrid = trimGrid(grid, {
+        trimTop,
+        trimBottom,
+        trimRight,
+        trimLeft,
+    });
+
+    const text: string = processedGrid
         .map(row => row.join(""))
         .join("\n");
 

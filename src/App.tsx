@@ -1,10 +1,21 @@
-import AppInner from './AppInner';
+import { useState } from "react";
+
+import AppInner from "./AppInner";
+import FeedbackModal from "./components/FeedbackModal";
 
 export default function App() {
-  return (
-    <>
-      <h1></h1>
-      <AppInner />
-    </>
-  );
+    const [open, setOpen] = useState(false);
+
+    return (
+        <>
+            <AppInner
+                onOpenFeedback={() => setOpen(true)}
+            />
+
+            <FeedbackModal
+                open={open}
+                onClose={() => setOpen(false)}
+            />
+        </>
+    );
 }

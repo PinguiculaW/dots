@@ -7,6 +7,7 @@ import { BRAILLE_BLANK } from "./utils/braille";
 import "./styles.css";
 import "./responsive.css";
 import type { Tool, Background, Selection } from "./types";
+import { trimGrid } from "./utils/trimGrid";
 
 
 // ====== TYPES ======
@@ -22,7 +23,13 @@ const createGrid = (w: number, h: number): Grid =>
     Array.from({ length: w }, () => BRAILLE_BLANK)
   );
 
-export default function AppInner(): React.ReactElement {
+type Props = {
+  onOpenFeedback: () => void;
+};
+
+export default function AppInner({
+                                   onOpenFeedback,
+                                 }: Props): React.ReactElement {
   const [width, setWidth] = useState<number>(40);
   const [height, setHeight] = useState<number>(20);
 
@@ -31,6 +38,11 @@ export default function AppInner(): React.ReactElement {
   const [redoStack, setRedoStack] = useState<Grid[]>([]);
 
   const [tooltipsEnabled, setTooltipsEnabled] = useState(true);
+
+  const [trimTop, setTrimTop] = useState<boolean>(true);
+  const [trimBottom, setTrimBottom] = useState<boolean>(true);
+  const [trimRight, setTrimRight] = useState<boolean>(true);
+  const [trimLeft, setTrimLeft] = useState<boolean>(true);
 
   const [selectedTool, setSelectedTool] = useState<Tool>("select");
   const [selectedSymbol, setSelectedSymbol] =
@@ -72,36 +84,18 @@ export default function AppInner(): React.ReactElement {
   const [selection, setSelection] = useState<Selection>(null);
   const [clipboard, setClipboard] = useState<ClipboardData>(null);
 
-  const charCount = (() => {
-    const trimmedRows = grid
-        .slice(0)
-        .reverse()
-        .reduce<string[][]>((acc, row) => {
-          if (
-              acc.length > 0 ||
-              row.some(cell => cell !== BRAILLE_BLANK)
-          ) {
-            acc.push(row);
-          }
-          return acc;
-        }, [])
-        .reverse();
+  const processedGrid = trimGrid(grid, {
+    trimTop,
+    trimBottom,
+    trimRight,
+    trimLeft,
+  });
 
-    return trimmedRows.reduce((total, row) => {
-      let lastNonEmpty = -1;
+  const textForCount = processedGrid
+      .map(row => row.join(""))
+      .join("\n");
 
-      for (let i = row.length - 1; i >= 0; i--) {
-        if (row[i] !== BRAILLE_BLANK) {
-          lastNonEmpty = i;
-          break;
-        }
-      }
-
-      if (lastNonEmpty === -1) return total;
-
-      return total + lastNonEmpty + 1;
-    }, 0);
-  })();
+  const charCount = textForCount.length;
 
   const pushHistory = (newGrid: Grid): void => {
     setHistory((prev) => [...prev.slice(-50), grid]);
@@ -409,12 +403,77 @@ export default function AppInner(): React.ReactElement {
               />
               Подсказки
             </label>
+
+            <div className="settings-subtitle">
+              Обрезка пустых символов
+            </div>
+
+            <label className="setting-row">
+              <input
+                  type="checkbox"
+                  checked={trimTop}
+                  onChange={(e) =>
+                      setTrimTop(e.target.checked)
+                  }
+              />
+              Обрезать пустые строки сверху
+            </label>
+
+            <label className="setting-row">
+              <input
+                  type="checkbox"
+                  checked={trimBottom}
+                  onChange={(e) =>
+                      setTrimBottom(e.target.checked)
+                  }
+              />
+              Обрезать пустые строки снизу
+            </label>
+
+            <label className="setting-row">
+              <input
+                  type="checkbox"
+                  checked={trimRight}
+                  onChange={(e) =>
+                      setTrimRight(e.target.checked)
+                  }
+              />
+              Обрезать пустые символы справа
+            </label>
+
+            <label className="setting-row">
+              <input
+                  type="checkbox"
+                  checked={trimLeft}
+                  onChange={(e) =>
+                      setTrimLeft(e.target.checked)
+                  }
+              />
+              Обрезать пустые символы слева
+            </label>
+
           </div>
 
         </div>
       </div>
 
-      <OutputPanel grid={grid} />
+      <OutputPanel
+          grid={grid}
+          trimTop={trimTop}
+          trimBottom={trimBottom}
+          trimRight={trimRight}
+          trimLeft={trimLeft}
+      />
+
+      <div style={{ marginBottom: 20, marginLeft: 20, textAlign: "left" }}>
+        <button
+            onClick={onOpenFeedback}
+            className="feedback-button"
+        >
+          Обратная связь
+        </button>
+      </div>
+
     </div>
   );
 }

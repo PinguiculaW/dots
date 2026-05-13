@@ -346,3 +346,39 @@ button:active {
   gap: 8px;
   font-size: 14px;
 }
+
+.settings-subtitle {
+  font-size: 13px;
+  font-weight: 800;
+  opacity: 0.75;
+  margin-bottom: 8px;
+  margin-top: 12px;
+}
+
+.feedback-button {
+  padding: 12px 26px;
+  font-size: 14px;
+
+  border-radius: 12px;
+  border: 2px solid #555;
+
+  background: #ef6dde;
+  color: #3c3c3c;
+
+  cursor: pointer;
+
+  transition:
+          background 0.2s ease,
+          color 0.2s ease,
+          transform 0.1s ease;
+}
+
+.feedback-button:hover {
+  background: #a569dc;
+  color: #252525;
+}
+
+.feedback-button:active {
+  transform: scale(0.96);
+  background: #88126d;
+}
