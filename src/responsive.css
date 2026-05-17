@@ -51,7 +51,7 @@
     }
 
     .cell {
-        --cell-width: 24px;
+        --cell-width: 18px;
         line-height: 1;
 
         text-align: center;
@@ -99,7 +99,7 @@
     /*}*/
 
     .cell {
-        --cell-width: 18px;
+        --cell-width: 14px;
         width: var(--cell-width);
     }
 
