@@ -46,12 +46,12 @@
 
     .grid {
         /*transform: scale(0.8);*/
-        transform-origin: top left;
+        /*transform-origin: top left;*/
         margin-top: 10px;
     }
 
     .cell {
-        --cell-width: 24px;
+        --cell-width: 18px;
         line-height: 1;
 
         text-align: center;
@@ -94,12 +94,12 @@
 /* ===== маленькие телефоны ===== */
 @media (max-width: 480px) {
 
-    .grid {
-        transform: scale(0.65);
-    }
+    /*.grid {*/
+    /*    transform: scale(0.65);*/
+    /*}*/
 
     .cell {
-        --cell-width: 18px;
+        --cell-width: 14px;
         width: var(--cell-width);
     }
 
@@ -114,13 +114,8 @@
 }
 
 .grid {
-    touch-action: none;
+    touch-action: pan-y pan-x;
     -webkit-user-select: none;
     user-select: none;
 }
 
-html,
-body {
-    touch-action: none;
-    overscroll-behavior: none;
-}
