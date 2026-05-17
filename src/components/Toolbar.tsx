@@ -133,6 +133,17 @@ const Toolbar: React.FC<ToolbarProps> = ({
             description:
                 "Вставка скопированного блока.",
         },
+
+        {
+            icon: "ℹ️",
+            title: "Краткая инструкция",
+            description:
+                "• Выберите инструмент\n" +
+                "• Рисуйте нажатием или перетаскиванием\n" +
+                "• Для копирования сначала выделите область\n" +
+                "• Для вставки нажмите на 📥 и выберите место для вставки (верхний левый угол)",
+        },
+
     ];
 
   const toolButton = (tool: Tool, icon: string, tooltip: string) => (
@@ -252,6 +263,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
                                 style={{
                                     marginTop: 4,
                                     opacity: 0.8,
+                                    whiteSpace: "pre-line",
                                 }}
                             >
                                 {tool.description}

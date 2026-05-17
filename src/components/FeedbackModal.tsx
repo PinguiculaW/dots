@@ -65,6 +65,16 @@ export default function FeedbackModal({ open, onClose }: Props) {
                     </IconButton>
                 </Box>
 
+                <Typography
+                    variant="body2"
+                    sx={{
+                        mt: 1,
+                        color: "#494949",
+                    }}
+                >
+                    Можете написать здесь про замеченные ошибки, что исправить, а также про желаемый дополнительный функционал (новые инструменты и т.п.).
+                </Typography>
+
                 <TextField
                     label="Ваше сообщение"
                     multiline
