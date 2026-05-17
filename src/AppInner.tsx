@@ -30,8 +30,15 @@ type Props = {
 export default function AppInner({
                                    onOpenFeedback,
                                  }: Props): React.ReactElement {
-  const [width, setWidth] = useState<number>(40);
-  const [height, setHeight] = useState<number>(20);
+  const isMobile = window.innerWidth <= 768;
+
+  const [width, setWidth] = useState<number>(
+      isMobile ? 20 : 40
+  );
+
+  const [height, setHeight] = useState<number>(
+      isMobile ? 10 : 20
+  );
 
   const [grid, setGrid] = useState<Grid>(createGrid(width, height));
   const [history, setHistory] = useState<Grid[]>([]);
