@@ -40,6 +40,7 @@ const GridEditor: React.FC<GridEditorProps> = ({
 }) => {
 
   const getCellFromTouch = (touch: React.Touch) => {
+
     const element = document.elementFromPoint(
         touch.clientX,
         touch.clientY
@@ -120,6 +121,19 @@ const GridEditor: React.FC<GridEditorProps> = ({
   const [tempGrid, setTempGrid] = useState<Grid | null>(null);
   const [selectionStart, setSelectionStart] = useState<Point | null>(null);
 
+  const updateTouchSelection = (touch: React.Touch) => {
+    const cell = getCellFromTouch(touch);
+
+    if (!cell || !selectionStart) return;
+
+    setSelection({
+      x1: Math.min(selectionStart.x, cell.x),
+      y1: Math.min(selectionStart.y, cell.y),
+      x2: Math.max(selectionStart.x, cell.x),
+      y2: Math.max(selectionStart.y, cell.y),
+    });
+  };
+
   const applyBrush = (
       x: number,
       y: number,
@@ -179,12 +193,23 @@ const GridEditor: React.FC<GridEditorProps> = ({
           className="grid"
 
           onTouchStart={(e) => {
-            e.preventDefault();
-
             const touch = e.touches[0];
             const cell = getCellFromTouch(touch);
 
             if (!cell) return;
+
+            if (selectedTool === "select") {
+              setSelectionStart(cell);
+
+              setSelection({
+                x1: cell.x,
+                y1: cell.y,
+                x2: cell.x,
+                y2: cell.y,
+              });
+
+              return;
+            }
 
             setIsDrawing(true);
 
@@ -196,11 +221,15 @@ const GridEditor: React.FC<GridEditorProps> = ({
           }}
 
           onTouchMove={(e) => {
-            e.preventDefault();
+            const touch = e.touches[0];
+
+            if (selectedTool === "select") {
+              updateTouchSelection(touch);
+              return;
+            }
 
             if (!isDrawing) return;
 
-            const touch = e.touches[0];
             const cell = getCellFromTouch(touch);
 
             if (!cell) return;
@@ -218,6 +247,7 @@ const GridEditor: React.FC<GridEditorProps> = ({
             ) {
               pushHistory(tempGrid);
               setTempGrid(null);
+              setSelectionStart(null);
             }
           }}
 
