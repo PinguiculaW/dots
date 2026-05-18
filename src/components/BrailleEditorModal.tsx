@@ -29,6 +29,7 @@ export default function BrailleEditorModal({
   const renderDot = (i: number) => (
       <div
           key={i}
+          data-dot={i}
           className={`dot ${dots[i] ? "active" : ""}`}
 
           onMouseDown={() => {
@@ -49,6 +50,43 @@ export default function BrailleEditorModal({
           onMouseUp={() => {
             setIsMouseDown(false);
             setDragValue(null);
+          }}
+
+          onTouchStart={(e) => {
+              e.preventDefault();
+
+              const nextValue = !dots[i];
+
+              setIsMouseDown(true);
+              setDragValue(nextValue);
+
+              setDotValue(i, nextValue);
+          }}
+
+          onTouchMove={(e) => {
+              e.preventDefault();
+
+              if (!isMouseDown || dragValue === null) return;
+
+              const touch = e.touches[0];
+
+              const element = document.elementFromPoint(
+                  touch.clientX,
+                  touch.clientY
+              ) as HTMLElement | null;
+
+              if (!element) return;
+
+              const dotIndex = element.dataset.dot;
+
+              if (dotIndex === undefined) return;
+
+              setDotValue(Number(dotIndex), dragValue);
+          }}
+
+          onTouchEnd={() => {
+              setIsMouseDown(false);
+              setDragValue(null);
           }}
       />
   );

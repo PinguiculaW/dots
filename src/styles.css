@@ -80,7 +80,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  pointer-events: auto;
+  pointer-events: none;
   z-index: 0;
   transform-origin: center;
 }
@@ -139,6 +139,10 @@ button.copied {
   display: flex;
 }
 
+.braille-grid {
+  touch-action: none;
+}
+
 .dot {
   width: 20px;
   height: 20px;
@@ -146,6 +150,8 @@ button.copied {
   border-radius: 50%;
   background: #ccc;
   cursor: pointer;
+
+  touch-action: none;
 }
 
 .dot.active {
@@ -207,6 +213,11 @@ button.copied {
 
 .canvas-area {
   position: relative;
+
+  display: flex;
+  justify-content: center;
+
+  width: 100%;
 }
 
 .bg-controls {
