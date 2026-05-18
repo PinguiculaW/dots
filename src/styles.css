@@ -37,12 +37,19 @@ body {
   font-family: monospace;
   line-height: 1;
   z-index: 1;
-  margin-top: 20px;
+  /*margin-top: 20px;*/
 
   user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
 }
+
+.grid-wrapper {
+  position: relative;
+  display: inline-flex;  /* облегает грид по размеру */
+  margin-top: 20px;
+}
+
 
 .row {
   display: flex;
@@ -82,7 +89,8 @@ body {
   left: 0;
   pointer-events: none;
   z-index: 0;
-  transform-origin: center;
+  /*transform-origin: top center;*/
+  transform-origin: top left;
 }
 
 .output textarea {

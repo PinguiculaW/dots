@@ -57,6 +57,8 @@ export default function AppInner({
   const [brushSize, setBrushSize] = useState<number>(1);
   const [fillMode] = useState<FillMode>("color");
 
+  const [bgNaturalSize, setBgNaturalSize] = useState<{w: number, h: number} | null>(null);
+
   const [background, setBackground] = useState<Background>({
     image: null,
     x: 0,
@@ -68,22 +70,38 @@ export default function AppInner({
   });
 
   const handleBackgroundUpload = (
-    e: React.ChangeEvent<HTMLInputElement>
+      e: React.ChangeEvent<HTMLInputElement>
   ): void => {
     const file = e.target.files?.[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.onload = () => {
-      setBackground({
-        image: reader.result as string,
-        x: 0,
-        y: 0,
-        scale: 1,
-        rotation: 0,
-        opacity: 0.5,
-        draggable: true,
-      });
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.querySelector(".grid-wrapper") as HTMLElement;
+        const canvasW = canvas?.offsetWidth ?? 600;
+        const canvasH = canvas?.offsetHeight ?? 400;
+
+        const scale = Math.min(canvasW / img.naturalWidth, canvasH / img.naturalHeight);
+
+        // При transform-origin: top left — translate идёт до scale,
+        // поэтому центрируем просто как обычный div
+        const x = (canvasW - img.naturalWidth * scale) / 2;
+        const y = (canvasH - img.naturalHeight * scale) / 2;
+
+        setBgNaturalSize({ w: img.naturalWidth, h: img.naturalHeight });
+
+        setBackground({
+          image: reader.result as string,
+          x,
+          y,
+          scale,
+          rotation: 0,
+          opacity: 0.5,
+          draggable: true,
+        });
+      };
+      img.src = reader.result as string;
     };
     reader.readAsDataURL(file);
   };
@@ -274,11 +292,12 @@ export default function AppInner({
 
       <div className="workspace">
         <div className="canvas-area">
-          <BackgroundLayer
-              background={background}
-              setBackground={setBackground}
-              handleBackgroundUpload={handleBackgroundUpload}
-          />
+          <div className="grid-wrapper">
+            <BackgroundLayer
+                background={background}
+                setBackground={setBackground}
+                handleBackgroundUpload={handleBackgroundUpload}
+            />
 
           <GridEditor
               grid={grid}
@@ -295,6 +314,7 @@ export default function AppInner({
               pasteSelection={pasteSelection}
               setSelectedTool={setSelectedTool}
           />
+        </div>
         </div>
 
         <div className="bg-controls">
@@ -324,16 +344,27 @@ export default function AppInner({
             <label>Размер</label>
             <input
                 type="range"
-                min="0.1"
+                min="0.01"
                 max="3"
-                step="0.1"
+                step="0.01"
                 value={background.scale}
-                onChange={(e) =>
-                    setBackground((prev) => ({
-                      ...prev,
-                      scale: Number(e.target.value),
-                    }))
-                }
+                onChange={(e) => {
+                  const newScale = Number(e.target.value);
+                  if (!bgNaturalSize) return;
+                  const canvas = document.querySelector(".grid-wrapper") as HTMLElement;
+                  const canvasW = canvas?.offsetWidth ?? 600;
+                  const canvasH = canvas?.offsetHeight ?? 400;
+
+                  const x = (canvasW - bgNaturalSize.w * newScale) / 2;
+                  const y = (canvasH - bgNaturalSize.h * newScale) / 2;
+
+                  setBackground((prev) => ({
+                    ...prev,
+                    scale: newScale,
+                    x,
+                    y,
+                  }));
+                }}
             />
           </div>
 

@@ -31,12 +31,13 @@ export default function BackgroundLayer({
       alt=""
       className="background"
       style={{
-        transform: `
-          translate(${background.x}px, ${background.y}px)
-          scale(${background.scale})
-          rotate(${background.rotation}deg)
-        `,
+        position: "absolute",
+        top: 0,
+        left: 0,
+        transformOrigin: "top left",
+        transform: `translate(${background.x}px, ${background.y}px) scale(${background.scale}) rotate(${background.rotation}deg)`,
         opacity: background.opacity,
+        pointerEvents: background.draggable ? "auto" : "none",
       }}
       draggable={false}
       onDragStart={(e) => e.preventDefault()}
