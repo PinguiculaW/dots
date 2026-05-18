@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GridEditor from "./components/GridEditor";
 import Toolbar from "./components/Toolbar";
 import OutputPanel from "./components/OutputPanel";
@@ -43,6 +43,8 @@ export default function AppInner({
   const [grid, setGrid] = useState<Grid>(createGrid(width, height));
   const [history, setHistory] = useState<Grid[]>([]);
   const [redoStack, setRedoStack] = useState<Grid[]>([]);
+
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
   const [tooltipsEnabled, setTooltipsEnabled] = useState(true);
 
@@ -109,6 +111,21 @@ export default function AppInner({
   const [selection, setSelection] = useState<Selection>(null);
   const [clipboard, setClipboard] = useState<ClipboardData>(null);
 
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (!hasUnsavedChanges) return;
+
+      e.preventDefault();
+      e.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [hasUnsavedChanges]);
+
   const processedGrid = trimGrid(grid, {
     trimTop,
     trimBottom,
@@ -126,6 +143,8 @@ export default function AppInner({
     setHistory((prev) => [...prev.slice(-50), grid]);
     setRedoStack([]);
     setGrid(newGrid);
+
+    setHasUnsavedChanges(true);
   };
 
   const undo = (): void => {
