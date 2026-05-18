@@ -94,7 +94,7 @@ export function trimGrid(
 
         if (minLeft !== null && minLeft > 0) {
             processedGrid = processedGrid.map(row =>
-                row.slice(minLeft)
+                row.slice(minLeft!)
             );
         }
     }
