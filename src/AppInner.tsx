@@ -57,6 +57,8 @@ export default function AppInner({
   const [brushSize, setBrushSize] = useState<number>(1);
   const [fillMode] = useState<FillMode>("color");
 
+  const [bgNaturalSize, setBgNaturalSize] = useState<{w: number, h: number} | null>(null);
+
   const [background, setBackground] = useState<Background>({
     image: null,
     x: 0,
@@ -86,6 +88,8 @@ export default function AppInner({
         // поэтому центрируем просто как обычный div
         const x = (canvasW - img.naturalWidth * scale) / 2;
         const y = (canvasH - img.naturalHeight * scale) / 2;
+
+        setBgNaturalSize({ w: img.naturalWidth, h: img.naturalHeight });
 
         setBackground({
           image: reader.result as string,
@@ -340,16 +344,27 @@ export default function AppInner({
             <label>Размер</label>
             <input
                 type="range"
-                min="0.1"
+                min="0.01"
                 max="3"
-                step="0.1"
+                step="0.01"
                 value={background.scale}
-                onChange={(e) =>
-                    setBackground((prev) => ({
-                      ...prev,
-                      scale: Number(e.target.value),
-                    }))
-                }
+                onChange={(e) => {
+                  const newScale = Number(e.target.value);
+                  if (!bgNaturalSize) return;
+                  const canvas = document.querySelector(".grid-wrapper") as HTMLElement;
+                  const canvasW = canvas?.offsetWidth ?? 600;
+                  const canvasH = canvas?.offsetHeight ?? 400;
+
+                  const x = (canvasW - bgNaturalSize.w * newScale) / 2;
+                  const y = (canvasH - bgNaturalSize.h * newScale) / 2;
+
+                  setBackground((prev) => ({
+                    ...prev,
+                    scale: newScale,
+                    x,
+                    y,
+                  }));
+                }}
             />
           </div>
 
