@@ -111,6 +111,23 @@ export default function AppInner({
   const [selection, setSelection] = useState<Selection>(null);
   const [clipboard, setClipboard] = useState<ClipboardData>(null);
 
+  const [newsOpen, setNewsOpen] = useState(false);
+
+  const updates = [
+    {
+      date: "18.05.2026",
+      text: "Добавлена возможность загрузки и настройки фоновой картинки.",
+    },
+    {
+      date: "17.05.2026",
+      text: "Добавлены мобильная адаптация и центрирование изображений.",
+    },
+    {
+      date: "15.05.2026",
+      text: "Появились настройки обрезки пустых символов.",
+    },
+  ];
+
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (!hasUnsavedChanges) return;
@@ -529,6 +546,50 @@ export default function AppInner({
         >
           Обратная связь
         </button>
+      </div>
+
+      <div className="updates-section">
+
+        <div
+            className="updates-header"
+            onClick={() => setNewsOpen(prev => !prev)}
+        >
+          <span>Последние обновления</span>
+
+          <span className={`updates-arrow ${newsOpen ? "open" : ""}`}>
+            ❯
+          </span>
+        </div>
+
+        <div className="updates-list">
+
+          <div className="update-item">
+            <div className="update-date">
+              {updates[0].date}
+            </div>
+
+            <div className="update-text">
+              {updates[0].text}
+            </div>
+          </div>
+
+          {newsOpen && updates.slice(1).map((update, index) => (
+              <div
+                  key={index}
+                  className="update-item"
+              >
+                <div className="update-date">
+                  {update.date}
+                </div>
+
+                <div className="update-text">
+                  {update.text}
+                </div>
+              </div>
+          ))}
+
+        </div>
+
       </div>
 
     </div>
