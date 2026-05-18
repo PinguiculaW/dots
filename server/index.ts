@@ -8,9 +8,9 @@ app.use(cors());
 app.use(express.json());
 
 // ---------- НАСТРОЙКИ EMAIL ----------
-const EMAIL_USER = "maripul.ka0066@gmail.com"; // твой Gmail
-const EMAIL_PASS = "eusj vzqj njbs pawb";   // app password, который создала
-const EMAIL_TO = "maripul.ka0066@gmail.com";   // куда приходят сообщения
+const EMAIL_USER = "42braille.dots@gmail.com"; // твой Gmail
+const EMAIL_PASS = "bpud ermr shea tnun";   // app password, который создала
+const EMAIL_TO = "42braille.dots@gmail.com";   // куда приходят сообщения
 
 const transporter = nodemailer.createTransport({
     service: "gmail",
