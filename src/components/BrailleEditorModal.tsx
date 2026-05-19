@@ -88,6 +88,12 @@ export default function BrailleEditorModal({
               setIsMouseDown(false);
               setDragValue(null);
           }}
+
+          onClick={() => {
+              if (isMouseDown) return;
+
+              setDotValue(i, !dots[i]);
+          }}
       />
   );
 
