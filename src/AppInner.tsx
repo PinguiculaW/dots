@@ -8,7 +8,7 @@ import "./styles.css";
 import "./responsive.css";
 import type { Tool, Background, Selection } from "./types";
 import { trimGrid } from "./utils/trimGrid";
-
+import { FaTiktok, FaEnvelope } from "react-icons/fa";
 
 // ====== TYPES ======
 type Grid = string[][];
@@ -590,6 +590,24 @@ export default function AppInner({
 
         </div>
 
+      </div>
+
+      <div className="tiktok-footer">
+        <a
+            href="https://www.tiktok.com/@ТВОЙ_АККАУНТ"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="TikTok"
+        >
+          <FaTiktok size={32} />
+        </a>
+
+        <a
+            href="mailto:42braille.dots@gmail.com"
+            aria-label="Email"
+        >
+          <FaEnvelope size={32} />
+        </a>
       </div>
 
     </div>
