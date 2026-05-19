@@ -488,3 +488,23 @@ button:active {
   width: 22px;
   height: 22px;
 }
+
+.modal {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  z-index: 1000;
+}
+
+.modal-content {
+  max-height: 80vh;
+  overflow-y: auto;
+
+  overscroll-behavior: contain;
+}
