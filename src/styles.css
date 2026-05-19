@@ -483,3 +483,8 @@ button:active {
 
   pointer-events: none;
 }
+
+.modal-content .tool-icon {
+  width: 22px;
+  height: 22px;
+}

@@ -83,78 +83,69 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
     const toolDescriptions = [
         {
-            icon: "✏️",
+            icon: pencilIcon,
             title: "Карандаш",
-            description:
-                "Рисование выбранным символом по сетке.",
+            description: "Рисование выбранным символом по сетке.",
         },
-
         {
-            icon: "🧽",
+            icon: eraserIcon,
             title: "Ластик",
-            description:
-                "Удаление символов с сетки.",
+            description: "Удаление символов с сетки.",
         },
-
         {
-            icon: "🎯",
+            icon: pipetteIcon,
             title: "Пипетка",
-            description:
-                "Выбор символа с холста.",
+            description: "Выбор символа с холста.",
         },
-
         {
-            icon: "🪣",
+            icon: fillIcon,
             title: "Заливка",
-            description:
-                "Заливка области одинаковых символов.",
+            description: "Заливка области одинаковых символов.",
         },
-
         {
-            icon: "️️⚙️",
+            icon: settingsIcon,
             title: "Настройка символа",
-            description:
-                "Открывает меню отрисовки символа.",
+            description: "Открывает меню отрисовки символа.",
         },
-
         {
-            icon: "▢",
+            icon: selectIcon,
             title: "Выделение",
-            description:
-                "Выделение области для копирования.",
+            description: "Выделение области для копирования.",
         },
-
         {
-            icon: "📋",
+            icon: copyIcon,
             title: "Копировать",
-            description:
-                "Копирует выделенную область.",
+            description: "Копирует выделенную область.",
         },
-
         {
-            icon: "✂️",
+            icon: cutIcon,
             title: "Вырезать",
-            description:
-                "Вырезает выделенную область.",
+            description: "Вырезает выделенную область.",
         },
-
         {
-            icon: "📥",
+            icon: pasteIcon,
             title: "Вставка",
-            description:
-                "Вставка скопированного блока.",
+            description: "Вставка скопированного блока.",
         },
-
         {
-            icon: "ℹ️",
+            icon: infoIcon,
             title: "Краткая инструкция",
             description:
                 "• Выберите инструмент\n" +
                 "• Рисуйте нажатием или перетаскиванием\n" +
                 "• Для копирования сначала выделите область\n" +
-                "• Для вставки нажмите на 📥 и выберите место для вставки (верхний левый угол)",
+                "• Для вставки нажмите на инструмент вставки и выберите место для вставки (верхний левый угол)",
         },
-
+        {
+            icon: undoIcon,
+            title: "Отменить",
+            description: "Отменяет последнее действие.",
+        },
+        {
+            icon: redoIcon,
+            title: "Повторить",
+            description: "Повторяет отменённое действие.",
+        },
     ];
 
     const toolButton = (
@@ -296,9 +287,22 @@ const Toolbar: React.FC<ToolbarProps> = ({
                                 marginBottom: 16,
                             }}
                         >
-                            <strong>
-                                {tool.icon} — {tool.title}
-                            </strong>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 8,
+                                    fontWeight: 700,
+                                }}
+                            >
+                                <img
+                                    src={tool.icon}
+                                    alt={tool.title}
+                                    className="tool-icon"
+                                />
+
+                                <span>{tool.title}</span>
+                            </div>
 
                             <div
                                 style={{
