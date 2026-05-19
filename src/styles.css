@@ -473,3 +473,13 @@ button:active {
   font-size: 15px;
   line-height: 1.4;
 }
+
+.tool-icon {
+  width: 26px;
+  height: 26px;
+
+  display: block;
+  object-fit: contain;
+
+  pointer-events: none;
+}
