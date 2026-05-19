@@ -401,3 +401,75 @@ button:active {
   transform: scale(0.96);
   background: #88126d;
 }
+
+.updates-section {
+  width: calc(100% - 40px);
+
+  margin: 0 20px 40px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.updates-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-bottom: 16px;
+  margin-bottom: 28px;
+  margin-top: 20px;
+
+  border-bottom: 2px solid #8f8f8f;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  user-select: none;
+}
+
+.updates-arrow {
+  display: inline-block;
+
+  transition: transform 0.25s ease;
+
+  font-size: 18px;
+}
+
+.updates-arrow.open {
+  transform: rotate(90deg);
+}
+
+.updates-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.update-item {
+  padding: 16px;
+
+  border-radius: 14px;
+
+  background: #8fefb5;
+
+  border: 2px solid #9360ec;
+
+  text-align: left;
+}
+
+.update-date {
+  font-size: 13px;
+  font-weight: 700;
+
+  opacity: 0.7;
+
+  margin-bottom: 8px;
+}
+
+.update-text {
+  font-size: 15px;
+  line-height: 1.4;
+}
