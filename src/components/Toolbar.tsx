@@ -5,7 +5,18 @@ import {useState} from "react";
 import type {Tool, Selection} from "../types";
 import Button from '@mui/material/Button';
 import Tooltip from "@mui/material/Tooltip";
-
+import pencilIcon from "../assets/tools/pencil.svg";
+import eraserIcon from "../assets/tools/eraser.svg";
+import copyIcon from "../assets/tools/copy.svg";
+import cutIcon from "../assets/tools/cut.svg";
+import fillIcon from "../assets/tools/fill.svg";
+import infoIcon from "../assets/tools/info.svg";
+import pasteIcon from "../assets/tools/paste.svg";
+import pipetteIcon from "../assets/tools/pipette.svg";
+import settingsIcon from "../assets/tools/setting.svg";
+import undoIcon from "../assets/tools/undo.svg";
+import redoIcon from "../assets/tools/redo.svg";
+import selectIcon from "../assets/tools/select.svg";
 
 interface ToolbarProps {
   selectedTool: Tool;
@@ -72,81 +83,76 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
     const toolDescriptions = [
         {
-            icon: "✏️",
+            icon: pencilIcon,
             title: "Карандаш",
-            description:
-                "Рисование выбранным символом по сетке.",
+            description: "Рисование выбранным символом по сетке.",
         },
-
         {
-            icon: "🧽",
+            icon: eraserIcon,
             title: "Ластик",
-            description:
-                "Удаление символов с сетки.",
+            description: "Удаление символов с сетки.",
         },
-
         {
-            icon: "🎯",
+            icon: pipetteIcon,
             title: "Пипетка",
-            description:
-                "Выбор символа с холста.",
+            description: "Выбор символа с холста.",
         },
-
         {
-            icon: "🪣",
+            icon: fillIcon,
             title: "Заливка",
-            description:
-                "Заливка области одинаковых символов.",
+            description: "Заливка области одинаковых символов.",
         },
-
         {
-            icon: "️️⚙️",
+            icon: settingsIcon,
             title: "Настройка символа",
-            description:
-                "Открывает меню отрисовки символа.",
+            description: "Открывает меню отрисовки символа.",
         },
-
         {
-            icon: "▢",
+            icon: selectIcon,
             title: "Выделение",
-            description:
-                "Выделение области для копирования.",
+            description: "Выделение области для копирования.",
         },
-
         {
-            icon: "📋",
+            icon: copyIcon,
             title: "Копировать",
-            description:
-                "Копирует выделенную область.",
+            description: "Копирует выделенную область.",
         },
-
         {
-            icon: "✂️",
+            icon: cutIcon,
             title: "Вырезать",
-            description:
-                "Вырезает выделенную область.",
+            description: "Вырезает выделенную область.",
         },
-
         {
-            icon: "📥",
+            icon: pasteIcon,
             title: "Вставка",
-            description:
-                "Вставка скопированного блока.",
+            description: "Вставка скопированного блока.",
         },
-
         {
-            icon: "ℹ️",
+            icon: infoIcon,
             title: "Краткая инструкция",
             description:
                 "• Выберите инструмент\n" +
                 "• Рисуйте нажатием или перетаскиванием\n" +
                 "• Для копирования сначала выделите область\n" +
-                "• Для вставки нажмите на 📥 и выберите место для вставки (верхний левый угол)",
+                "• Для вставки нажмите на инструмент вставки и выберите место для вставки (верхний левый угол)",
         },
-
+        {
+            icon: undoIcon,
+            title: "Отменить",
+            description: "Отменяет последнее действие.",
+        },
+        {
+            icon: redoIcon,
+            title: "Повторить",
+            description: "Повторяет отменённое действие.",
+        },
     ];
 
-  const toolButton = (tool: Tool, icon: string, tooltip: string) => (
+    const toolButton = (
+        tool: Tool,
+        icon: string,
+        tooltip: string
+    ) => (
       <Tooltip
         title={tooltipsEnabled ? tooltip : ""}
         arrow
@@ -174,7 +180,11 @@ const Toolbar: React.FC<ToolbarProps> = ({
       }}
       className={selectedTool === tool ? "tool active" : "tool"}
     >
-      {icon}
+          <img
+              src={icon}
+              alt={tooltip}
+              className="tool-icon"
+          />
     </Button>
     </Tooltip>
   );
@@ -182,10 +192,10 @@ const Toolbar: React.FC<ToolbarProps> = ({
   return (
     <div className="toolbar">
       <div className="group">
-        {toolButton("pencil", "✏️", "Карандаш")}
-        {toolButton("eraser", "🧽", "Ластик")}
-        {toolButton("picker", "🎯", "Пипетка")}
-        {toolButton("fill", "🪣", "Заливка")}
+          {toolButton("pencil", pencilIcon, "Карандаш")}
+          {toolButton("eraser", eraserIcon, "Ластик")}
+          {toolButton("picker", pipetteIcon, "Пипетка")}
+          {toolButton("fill", fillIcon, "Заливка")}
       </div>
 
 
@@ -199,20 +209,38 @@ const Toolbar: React.FC<ToolbarProps> = ({
             style={{width: 20}}
         />
           <Tooltip title={tt("Настройка символа")} {...tooltipProps} arrow>
-        <button onClick={() => setShowModal(true)}>⚙️</button>
+              <button onClick={() => setShowModal(true)}>
+                  <img
+                      src={settingsIcon}
+                      alt="Настройки"
+                      className="tool-icon"
+                  />
+              </button>
           </Tooltip>
       </div>
 
 
       <div className="group">
-        {toolButton("select", "▢", "Выделение")}
+          {toolButton("select", selectIcon, "Выделение")}
         <Tooltip title={tt("Копировать выделенное")} {...tooltipProps} arrow>
-        <button onClick={copySelection}>📋</button>
+            <button onClick={copySelection}>
+                <img
+                    src={copyIcon}
+                    alt="Копировать"
+                    className="tool-icon"
+                />
+            </button>
         </Tooltip>
           <Tooltip title={tt("Вырезать выделенное")} {...tooltipProps} arrow>
-              <button onClick={cutSelection}>✂️</button>
+              <button onClick={cutSelection}>
+                  <img
+                      src={cutIcon}
+                      alt="Вырезать"
+                      className="tool-icon"
+                  />
+              </button>
           </Tooltip>
-        {toolButton("paste", "📥", "Вставка")}
+          {toolButton("paste", pasteIcon, "Вставка")}
       </div>
 
         <Tooltip title={tt("Информация")} {...tooltipProps} arrow>
@@ -232,7 +260,11 @@ const Toolbar: React.FC<ToolbarProps> = ({
                 },
             }}
         >
-            ℹ️
+            <img
+                src={infoIcon}
+                alt="Информация"
+                className="tool-icon"
+            />
         </Button>
         </Tooltip>
 
@@ -255,9 +287,22 @@ const Toolbar: React.FC<ToolbarProps> = ({
                                 marginBottom: 16,
                             }}
                         >
-                            <strong>
-                                {tool.icon} — {tool.title}
-                            </strong>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 8,
+                                    fontWeight: 700,
+                                }}
+                            >
+                                <img
+                                    src={tool.icon}
+                                    alt={tool.title}
+                                    className="tool-icon"
+                                />
+
+                                <span>{tool.title}</span>
+                            </div>
 
                             <div
                                 style={{
@@ -280,10 +325,22 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
       <div className="group">
           <Tooltip title={tt("Отменить")} {...tooltipProps} arrow>
-        <Button sx={{p:0}} variant='outlined'  onClick={undo}>↩</Button>
+              <Button sx={{p:0}} variant="outlined" onClick={undo}>
+                  <img
+                      src={undoIcon}
+                      alt="Отменить"
+                      className="tool-icon"
+                  />
+              </Button>
           </Tooltip>
           <Tooltip title={tt("Повторить")} {...tooltipProps} arrow>
-        <Button sx={{p:0}} variant='outlined'  onClick={redo}>↪</Button>
+              <Button sx={{p:0}} variant="outlined" onClick={redo}>
+                  <img
+                      src={redoIcon}
+                      alt="Повторить"
+                      className="tool-icon"
+                  />
+              </Button>
           </Tooltip>
       </div>
 
