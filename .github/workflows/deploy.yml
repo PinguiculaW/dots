@@ -30,6 +30,17 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
           local-dir: dist/
           server-dir: /
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.gitignore**            
+            **/node_modules/**
+            **/.github/**
+            **/.vscode/**
+            **/.editorconfig**            
+            **/.idea/**
+            **/.claude/**
+            **/ai-process/**
+            **/server/**
