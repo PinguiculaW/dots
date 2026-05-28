@@ -595,7 +595,7 @@ export default function AppInner({
         </a>
 
         <a
-            href="mailto:42braille.dots@gmail.com"
+            href="mailto:dots.fsk8@mail.ru"
             aria-label="Email"
         >
           <FaEnvelope size={32} />
