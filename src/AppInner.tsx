@@ -586,7 +586,7 @@ export default function AppInner({
 
       <div className="tiktok-footer">
         <a
-            href="https://www.tiktok.com/@ТВОЙ_АККАУНТ"
+            href="https://www.tiktok.com/@dots.fsk8"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="TikTok"
