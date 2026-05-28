@@ -539,14 +539,6 @@ export default function AppInner({
           trimLeft={trimLeft}
       />
 
-      <div style={{ marginBottom: 20, marginLeft: 20, textAlign: "left" }}>
-        <button
-            onClick={onOpenFeedback}
-            className="feedback-button"
-        >
-          Обратная связь
-        </button>
-      </div>
 
       <div className="updates-section">
 
