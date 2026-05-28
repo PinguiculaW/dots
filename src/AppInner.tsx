@@ -539,14 +539,6 @@ export default function AppInner({
           trimLeft={trimLeft}
       />
 
-      <div style={{ marginBottom: 20, marginLeft: 20, textAlign: "left" }}>
-        <button
-            onClick={onOpenFeedback}
-            className="feedback-button"
-        >
-          Обратная связь
-        </button>
-      </div>
 
       <div className="updates-section">
 
@@ -594,7 +586,7 @@ export default function AppInner({
 
       <div className="tiktok-footer">
         <a
-            href="https://www.tiktok.com/@ТВОЙ_АККАУНТ"
+            href="https://www.tiktok.com/@dots.fsk8"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="TikTok"
@@ -603,7 +595,7 @@ export default function AppInner({
         </a>
 
         <a
-            href="mailto:42braille.dots@gmail.com"
+            href="mailto:dots.fsk8@mail.ru"
             aria-label="Email"
         >
           <FaEnvelope size={32} />
