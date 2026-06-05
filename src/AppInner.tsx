@@ -23,13 +23,12 @@ const createGrid = (w: number, h: number): Grid =>
     Array.from({ length: w }, () => BRAILLE_BLANK)
   );
 
-type Props = {
-  onOpenFeedback: () => void;
-};
+// note убрал пока не развернем сервер для обратной связи
+// type Props = {
+//   onOpenFeedback: () => void;
+// };
 
-export default function AppInner({
-                                   onOpenFeedback,
-                                 }: Props): React.ReactElement {
+export default function AppInner(): React.ReactElement {
   const isMobile = window.innerWidth <= 768;
 
   const [width, setWidth] = useState<number>(
